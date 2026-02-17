@@ -6,6 +6,11 @@ grid-auto-rows: auto;
 gap: var(--space-s);
 }
 
+.grid > * {
+    min-width: 0; /* Prevents grid items from overflowing */
+    overflow-wrap: break-word; /* Allows long text to wrap */
+}
+
 @media (min-width: 991px) {
     .grid {
         grid-template-columns: 2fr 1fr;

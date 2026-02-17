@@ -27,6 +27,10 @@
 	overflow: hidden;
 }
 
+.title {
+  font-size: var(--text-xs);
+}
+
 .year {
   font-size: 1.2rem;
   font-weight: bold;
@@ -48,7 +52,7 @@
 
 .title {
   flex: 1;
-  font-size: var(--text-s);
+  font-size: var(--text-xs);
   color: var(--primary);
   overflow: hidden;
   text-overflow: ellipsis;
