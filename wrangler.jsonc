@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "main": ".open-next/worker.js",
-  "name": "ls-lacrosse-payload",
+  "name": "ls-lacrosse",
   "routes": [
     {
       "pattern": "lslacrosse.com",
@@ -42,7 +42,7 @@
   "services": [
     {
       "binding": "WORKER_SELF_REFERENCE",
-      "service": "ls-lacrosse-payload",
+      "service": "ls-lacrosse",
     },
   ],
   "r2_buckets": [
