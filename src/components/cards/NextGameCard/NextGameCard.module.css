@@ -34,7 +34,6 @@
 	display:flex;
 	font-size:0.86819rem;
 	font-style:normal;
-	font-family:'Inter';
 	font-weight:300;
 	line-height:1.3125rem;
 	justify-content:center;
@@ -51,6 +50,7 @@
 .btnWrap{
 width:100%;
 	display:flex;
+	flex-wrap:wrap;
 	row-gap:.75rem;
 	column-gap:1rem;
 	align-items:flex-start;

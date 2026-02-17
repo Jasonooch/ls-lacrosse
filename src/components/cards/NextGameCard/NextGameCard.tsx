@@ -57,7 +57,7 @@ export default function NextGameCard({ game }: NextGameCardProps) {
 
   return (
     <Card className="w-full">
-      <CardContent className="pt-8 px-8 pb-8 flex flex-col gap-6">
+      <CardContent className="px-8 py-0 flex flex-col gap-6">
         {/* Heading */}
         <HeadingUnderline>Next Game</HeadingUnderline>
 
