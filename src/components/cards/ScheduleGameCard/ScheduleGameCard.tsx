@@ -5,13 +5,13 @@ import { MapPin } from 'lucide-react';
 import styles from './ScheduleGameCard.module.css';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { formatInEasternTime } from '@/lib/date-time';
 
 interface ScheduleGameCardProps {
   opponentName: string;
   opponentLogo?: string;
   location: string;
-  date: string;
-  time?: string;
+  gameDate: string;
   lsFinal?: number;
   opponentFinal?: number;
   slug: string;
@@ -21,8 +21,7 @@ const ScheduleGameCard = ({
   opponentName,
   opponentLogo,
   location,
-  date,
-  time,
+  gameDate,
   lsFinal,
   opponentFinal,
   slug,
@@ -40,10 +39,15 @@ const ScheduleGameCard = ({
     : null;
 
   // 3. Format the date nicely
-  const formattedDate = new Date(date).toLocaleDateString('en-US', {
+  const formattedDate = formatInEasternTime(gameDate, {
     weekday: 'short',
     month: 'short',
     day: 'numeric',
+  });
+  const formattedTime = formatInEasternTime(gameDate, {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
   });
 
   return (
@@ -78,7 +82,7 @@ const ScheduleGameCard = ({
               <span className={styles.scoreText}>{lsFinal}-{opponentFinal}</span>
             </div>
           ) : (
-            <div className={styles.gameTime}>{time || 'TBD'}</div>
+            <div className={styles.gameTime}>{formattedTime || 'TBD'}</div>
           )}
         </div>
         <div className={styles.date}>{formattedDate}</div>

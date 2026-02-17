@@ -8,6 +8,7 @@ import { CirclePlus } from 'lucide-react';
 import { cache } from 'react';
 import { getPayload } from 'payload';
 import config from '@payload-config';
+import { getEasternYear } from '@/lib/date-time';
 
 type SeasonOption = {
   id: number
@@ -38,7 +39,7 @@ const getSeasons = cache(async () => {
     const season = game.season as unknown as { id: number } | number;
     const seasonId = typeof season === 'object' && season !== null ? season.id : (season as number);
     if (seasonId && !seasonMap.has(seasonId)) {
-      const year = new Date(game.date as string).getFullYear().toString();
+      const year = getEasternYear(game.date as string);
       seasonMap.set(seasonId, { id: seasonId, year });
     }
   }
@@ -115,16 +116,7 @@ export default async function VarsitySchedulePage({ searchParams }: Props) {
                       game.opponent.logo?.url
                     }
                     location={game.location}
-                    date={new Date(game.date).toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric',
-                    })}
-                    time={game.date ? new Date(game.date).toLocaleTimeString('en-US', {
-                      hour: 'numeric',
-                      minute: '2-digit',
-                      hour12: true
-                    }) : undefined}
+                    gameDate={game.date}
                     lsFinal={game.lsFinal}
                     opponentFinal={game.opponentFinal}
                     slug={game.slug}

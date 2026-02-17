@@ -6,6 +6,7 @@ import { Button } from '../../ui/button';
 import { Card, CardContent } from '../../ui/card';
 import { Clock } from 'lucide-react';
 import { ArrowRight } from 'lucide-react';
+import { formatInEasternTime } from '@/lib/date-time';
 
 
 
@@ -41,16 +42,15 @@ export default function NextGameCard({ game }: NextGameCardProps) {
     );
   }
 
-  const dateObj = new Date(game.date);
-  const monthDay = new Intl.DateTimeFormat('en-US', {
+  const monthDay = formatInEasternTime(game.date, {
     month: 'long',
     day: 'numeric',
-  }).format(dateObj);
-  const time = new Intl.DateTimeFormat('en-US', {
+  });
+  const time = formatInEasternTime(game.date, {
     hour: 'numeric',
     minute: '2-digit',
     hour12: true,
-  }).format(dateObj);
+  });
   const isHome = game.location === 'LSRHS';
 
   const opponentLogoUrl = game.opponent.logo?.url || null;

@@ -2,6 +2,7 @@ import Image from 'next/image';
 import styles from './ScoreboardCard.module.css';
 import type { Game } from '@/lib/api/games/games';
 import { Card } from '@/components/ui/card';
+import { formatInEasternTime } from '@/lib/date-time';
 
 interface ScoreboardCardProps {
   game: Game;
@@ -11,11 +12,11 @@ export default function ScoreboardCard({
   game,
 }: ScoreboardCardProps) {
   const dateObj = new Date(game.date);
-  const formattedDate = new Intl.DateTimeFormat('en-US', {
+  const formattedDate = formatInEasternTime(game.date, {
     weekday: 'short',
     month: 'short',
     day: 'numeric',
-  }).format(dateObj);
+  });
   
   // Determine if game has already happened
   const now = new Date();
@@ -24,11 +25,11 @@ export default function ScoreboardCard({
   // Get status: "Final" if past, or time if future
   const status = isFinal 
     ? 'Final' 
-    : new Intl.DateTimeFormat('en-US', {
+    : formatInEasternTime(game.date, {
         hour: 'numeric',
         minute: '2-digit',
         hour12: true,
-      }).format(dateObj);
+      });
   
   // Get scores, defaulting to 0 if not available
   const lsScore = game.lsFinal ?? 0;

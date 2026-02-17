@@ -2,6 +2,7 @@ import styles from './MobileNewsCard.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Card } from '@/components/ui/card';
+import { formatInEasternTime } from '@/lib/date-time';
 
 interface MobileNewsCardProps {
   title: string;
@@ -19,12 +20,12 @@ export default function MobileNewsCard({
   heroImage,
   publishedAt,
 }: MobileNewsCardProps) {
-  const formattedDate = publishedAt
-    ? new Date(publishedAt)
-    : null;
-
-  const monthDay = formattedDate?.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
-  const year = formattedDate?.toLocaleDateString('en-US', { year: 'numeric' });
+  const monthDay = publishedAt
+    ? formatInEasternTime(publishedAt, { month: 'long', day: 'numeric' })
+    : '';
+  const year = publishedAt
+    ? formatInEasternTime(publishedAt, { year: 'numeric' })
+    : '';
 
   const imageUrl = heroImage?.url || null;
 

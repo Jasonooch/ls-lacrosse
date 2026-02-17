@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 
 import { getPosts } from '@/lib/api/posts';
 import { getNextGame } from '@/lib/api/games/games'; // ← Only need this one
+import { formatInEasternTime } from '@/lib/date-time';
 
 // export const dynamic = 'force-dynamic';
 
@@ -40,7 +41,7 @@ export default async function SinglePostPage({
   const relatedPosts = relatedData.docs; // No need to slice, already fetching 4
 
   const formattedDate = post.publishedAt
-    ? new Date(post.publishedAt).toLocaleDateString('en-US', {
+    ? formatInEasternTime(post.publishedAt, {
         year: 'numeric',
         month: 'long',
         day: 'numeric',

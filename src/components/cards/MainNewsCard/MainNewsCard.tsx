@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from './MainNewsCard.module.css'
+import { formatInEasternTime } from '@/lib/date-time';
 
 interface MainNewsCardProps {
   title: string;
@@ -23,7 +24,7 @@ export default function MainNewsCard({
   isMain = false,
 }: MainNewsCardProps) {
   const formattedDate = publishedAt
-    ? new Date(publishedAt).toLocaleDateString('en-US', {
+    ? formatInEasternTime(publishedAt, {
         month: 'long',
         day: 'numeric',
         year: 'numeric',

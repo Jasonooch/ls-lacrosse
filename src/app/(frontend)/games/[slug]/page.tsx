@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import PageTitle from '@/components/ui/PageTitle/PageTitle'
 import { Button } from '@/components/ui/button'
 import { getGameBySlug } from '@/lib/api/games/games'
+import { formatInEasternTime } from '@/lib/date-time'
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -18,18 +19,17 @@ export default async function GameDetailsPage({ params }: Props) {
     notFound()
   }
 
-  const gameDate = new Date(game.date)
-  const formattedDate = new Intl.DateTimeFormat('en-US', {
+  const formattedDate = formatInEasternTime(game.date, {
     weekday: 'long',
     month: 'long',
     day: 'numeric',
     year: 'numeric',
-  }).format(gameDate)
-  const formattedTime = new Intl.DateTimeFormat('en-US', {
+  })
+  const formattedTime = formatInEasternTime(game.date, {
     hour: 'numeric',
     minute: '2-digit',
     hour12: true,
-  }).format(gameDate)
+  })
 
   const opponentLogoUrl = game.opponent.logo?.url
   const isHomeGame = game.location === 'LSRHS'

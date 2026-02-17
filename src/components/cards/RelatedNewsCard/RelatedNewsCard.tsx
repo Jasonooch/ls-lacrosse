@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from '@/components/cards/RelatedNewsCard/RelatedNewsCard.module.css';
+import { formatInEasternTime } from '@/lib/date-time';
 
 interface RelatedNewsCardProps {
   post: {
@@ -16,7 +17,7 @@ interface RelatedNewsCardProps {
 
 const RelatedNewsCard = ({ post }: RelatedNewsCardProps) => {
   const formattedDate = post.publishedAt
-    ? new Date(post.publishedAt).toLocaleDateString('en-US', {
+    ? formatInEasternTime(post.publishedAt, {
         year: 'numeric',
         month: 'long',
         day: 'numeric',

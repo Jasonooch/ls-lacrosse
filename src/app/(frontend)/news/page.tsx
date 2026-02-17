@@ -6,6 +6,7 @@ import PaginatedMobileNewsList from '@/components/lists/PaginatedMobileNewsList/
 import { getPayload } from 'payload';
 import config from '@payload-config';
 import type { Year } from '@/types/cms';
+import { formatInEasternTime } from '@/lib/date-time';
 
 export default async function Page() {
   const payload = await getPayload({ config });
@@ -46,7 +47,7 @@ export default async function Page() {
                         }
 
                         return {
-                          date: post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('en-US', {
+                          date: post.publishedAt ? formatInEasternTime(post.publishedAt, {
                             year: 'numeric',
                             month: 'long',
                             day: 'numeric'
