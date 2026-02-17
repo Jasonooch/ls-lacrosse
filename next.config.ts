@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
   images: {
     loader: 'custom',
     loaderFile: './imageLoader.ts',
+    remotePatterns: [
+      { protocol: 'https', hostname: 'global.divhunt.com' },
+    ],
   },
   webpack: (webpackConfig) => {
     webpackConfig.resolve.extensionAlias = {

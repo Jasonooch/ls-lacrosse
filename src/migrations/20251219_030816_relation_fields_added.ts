@@ -1,6 +1,6 @@
 import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-d1-sqlite'
 
-export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
+export async function up({ db, payload: _payload, req: _req }: MigrateUpArgs): Promise<void> {
   await db.run(sql`ALTER TABLE \`posts\` ADD \`photo_attribution\` text;`)
   await db.run(sql`ALTER TABLE \`posts\` ADD \`season_id\` integer REFERENCES years(id);`)
   await db.run(sql`CREATE INDEX \`posts_season_idx\` ON \`posts\` (\`season_id\`);`)
@@ -17,7 +17,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.run(sql`ALTER TABLE \`_rosters_v\` DROP COLUMN \`version_season\`;`)
 }
 
-export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
+export async function down({ db, payload: _payload, req: _req }: MigrateDownArgs): Promise<void> {
   await db.run(sql`PRAGMA foreign_keys=OFF;`)
   await db.run(sql`CREATE TABLE \`__new_posts\` (
   	\`id\` integer PRIMARY KEY NOT NULL,

@@ -1,13 +1,13 @@
 import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-d1-sqlite'
 
-export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
+export async function up({ db, payload: _payload, req: _req }: MigrateUpArgs): Promise<void> {
   await db.run(sql`ALTER TABLE \`games\` ADD \`level_id\` integer REFERENCES levels(id);`)
   await db.run(sql`CREATE INDEX \`games_level_idx\` ON \`games\` (\`level_id\`);`)
   await db.run(sql`ALTER TABLE \`_games_v\` ADD \`version_level_id\` integer REFERENCES levels(id);`)
   await db.run(sql`CREATE INDEX \`_games_v_version_version_level_idx\` ON \`_games_v\` (\`version_level_id\`);`)
 }
 
-export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
+export async function down({ db, payload: _payload, req: _req }: MigrateDownArgs): Promise<void> {
   await db.run(sql`PRAGMA foreign_keys=OFF;`)
   await db.run(sql`CREATE TABLE \`__new_games\` (
   	\`id\` integer PRIMARY KEY NOT NULL,

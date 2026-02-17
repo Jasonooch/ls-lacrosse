@@ -39,7 +39,7 @@ if (!payloadSecret) {
 }
 
 const cloudflare =
-  isCLI || !isProduction
+  isCLI || !isProduction || isBuildPhase
     ? await getCloudflareContextFromWrangler()
     : await getCloudflareContext({ async: true })
 
@@ -74,7 +74,7 @@ export default buildConfig({
     r2Storage({
       // Type assertion needed due to Cloudflare Workers type updates
       // The bucket is compatible at runtime, types just don't align between versions
-      bucket: cloudflare.env.R2 as any,
+      bucket: cloudflare.env.R2 as unknown as Parameters<typeof r2Storage>[0]['bucket'],
       collections: { media: true },
     }),
   ],
@@ -86,7 +86,7 @@ function getCloudflareContextFromWrangler(): Promise<CloudflareContext> {
     ({ getPlatformProxy }) =>
       getPlatformProxy({
         environment: process.env.CLOUDFLARE_ENV,
-        remoteBindings: isProduction,
+        remoteBindings: isProduction && !isBuildPhase,
       } satisfies GetPlatformProxyOptions),
   )
 }

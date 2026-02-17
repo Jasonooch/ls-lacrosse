@@ -57,7 +57,7 @@ export const Games: CollectionConfig = {
                   depth: 0,
                 })
                 opponentName = opponent.name || 'unknown'
-              } catch (e) {
+              } catch (_e) {
                 opponentName = 'unknown'
               }
             }

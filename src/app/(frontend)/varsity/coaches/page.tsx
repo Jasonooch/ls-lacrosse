@@ -25,7 +25,7 @@ export default async function Roster() {
           </div>
         </section>
     );
-  }``
+  }
 
   // Transform player data to match table keys
 const players = latestRoster.players.map((player) => ({

@@ -1,7 +1,5 @@
 // lib/navigation.ts
 
-import type { ReactNode } from "react";
-
 export type NavItem = {
   title: string;
   href?: string;

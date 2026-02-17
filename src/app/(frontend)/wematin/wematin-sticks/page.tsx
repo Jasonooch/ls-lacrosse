@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import styles from './sticks.module.css';
 import PageTitle from '@/components/ui/PageTitle/PageTitle';
 
@@ -86,9 +87,11 @@ export default function WematinSticks() {
                     <form method="POST" className={styles.form}>
                       {/* Success State */}
                       <div className={styles.formSuccess}>
-                        <img
+                        <Image
                           src="https://global.divhunt.com/b132c3ca1269550cac0d6f5ebe06cdf5_2464.svg"
                           alt="Success"
+                          width={64}
+                          height={64}
                           className={styles.successIcon}
                         />
                         <p className={styles.successTitle}>Success!</p>
