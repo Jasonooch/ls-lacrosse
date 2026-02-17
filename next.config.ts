@@ -4,8 +4,7 @@ import type { NextConfig } from 'next'
 /** @type {import('next').NextConfig} */
 const nextConfig: NextConfig = {
   images: {
-    loader: 'custom',
-    loaderFile: './imageLoader.ts',
+    unoptimized: true,
   },
   webpack: (webpackConfig) => {
     webpackConfig.resolve.extensionAlias = {
