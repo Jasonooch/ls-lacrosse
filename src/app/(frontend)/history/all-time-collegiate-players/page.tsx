@@ -11,9 +11,7 @@ const columns = [
 
 export default async function AllTimeCollegiatePlayers() {
   // Placeholder data - will be replaced with actual data from CMS
-  const collegiatePlayers = [
-    // Add placeholder rows here once collection is created
-  ];
+  const collegiatePlayers: Record<string, string>[] = [];
 
   return (
     <main>

@@ -1,10 +1,10 @@
 'use client'; // Important: This must be a Client Component
 
 import { RichText } from '@payloadcms/richtext-lexical/react';
-import type { LexicalEditorState } from '@/types/cms';
+import type { SerializedEditorState } from 'lexical';
 
 type Props = {
-  content: LexicalEditorState | null | undefined;
+  content: SerializedEditorState | null | undefined;
   className?: string;
 };
 

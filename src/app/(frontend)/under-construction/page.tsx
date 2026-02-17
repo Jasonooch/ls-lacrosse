@@ -13,9 +13,7 @@ export default function UnderConstruction() {
                         <h1 className={styles.heading}>Under Construction</h1>
                         <span className={styles.text}>We are in the process of updating our website and records. Please check back later!</span>
                         <Link href='/'>
-                            <Button
-                            children='Go Back'
-                            size='lg' />
+                            <Button size='lg'>Go Back</Button>
                         </Link>
                     </div>
                 </div>

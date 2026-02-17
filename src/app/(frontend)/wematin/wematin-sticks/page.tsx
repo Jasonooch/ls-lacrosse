@@ -30,7 +30,7 @@ export default function WematinSticks() {
                     All members of the LS lacrosse family interested in being a mentor should fill out the form below.
                   </p>
                   <p>
-                    There will be grade representatives that will handle initial conversations with young alumni. The grade representatives will serve as a link between the young alumni, and the appropriate mentors based on the Young Alumni's goals/preferences.
+                    There will be grade representatives that will handle initial conversations with young alumni. The grade representatives will serve as a link between the young alumni, and the appropriate mentors based on the Young Alumni&apos;s goals/preferences.
                   </p>
                   <p>
                     A group platform will be created so that all members can efficiently connect with each other.
@@ -48,7 +48,7 @@ export default function WematinSticks() {
                       Willingness to give their time and take a 15-30 minute phone call with a member of the community that has been paired with you (current college player, or alumni out of school).
                     </li>
                     <li>
-                      The objective of brainstorming in any way they can be of service. Must have a "How can I help?" mentality
+                      The objective of brainstorming in any way they can be of service. Must have a &quot;How can I help?&quot; mentality
                     </li>
                     <li>
                       An ability and desire to take action by opening their network, creating introductions, and making recommendations on behalf of the community member.
@@ -79,7 +79,7 @@ export default function WematinSticks() {
                 <div className={styles.signUpContent}>
                   <div className={styles.signUpText}>
                     <p>
-                      If you're an LS lacrosse alum or community member passionate about mentorship and networking, we invite you to join Wematin Sticks. Sign up today to connect, support, and grow with fellow LS lacrosse alumni.
+                      If you&apos;re an LS lacrosse alum or community member passionate about mentorship and networking, we invite you to join Wematin Sticks. Sign up today to connect, support, and grow with fellow LS lacrosse alumni.
                     </p>
                   </div>
                   <div className={styles.formContainer}>

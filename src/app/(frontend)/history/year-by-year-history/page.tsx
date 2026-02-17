@@ -13,9 +13,7 @@ const columns = [
 
 export default async function YearByYearHistory() {
   // Placeholder data - will be replaced with actual data from CMS
-  const historyData = [
-    // Add placeholder rows here once collection is created
-  ];
+  const historyData: Record<string, string>[] = [];
 
   return (
     <main>

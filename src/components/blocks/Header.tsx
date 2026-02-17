@@ -55,10 +55,10 @@ const Header = () => {
                 <div className="container">
                     <div className="flex col-gap-[3.5rem] gap-x-[3.5rem]">
                         <div>
-                            <a href="/" className="text-[var(--navy)] text-base font-bold tracking-wider uppercase no-underline relative group">
+                            <Link href="/" className="text-[var(--navy)] text-base font-bold tracking-wider uppercase no-underline relative group">
                                 Varsity
                                 <span className="absolute left-1/2 bottom-0 h-[1px] w-0 bg-[var(--primary)] transition-all duration-300 ease-in-out group-hover:w-full -translate-x-1/2"></span>
-                            </a>
+                            </Link>
                         </div>
                         <div className="flex gap-x-[2rem]">
                             {varsitySubnavItems.map((item) => (

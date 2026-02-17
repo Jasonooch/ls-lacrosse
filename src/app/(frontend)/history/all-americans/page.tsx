@@ -11,9 +11,7 @@ const columns = [
 
 export default async function AllAmericans() {
   // Placeholder data - will be replaced with actual data from CMS
-  const allAmericans = [
-    // Add placeholder rows here once collection is created
-  ];
+  const allAmericans: Record<string, string>[] = [];
 
   return (
     <main>

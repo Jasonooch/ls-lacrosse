@@ -1,12 +1,13 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import type { LexicalEditorState, Year } from '@/types/cms'
+import type { Year } from '@/types/cms'
+import type { SerializedEditorState } from 'lexical'
 
 export type Post = {
   id: string;
   title: string;
   slug: string;
-  content?: LexicalEditorState;
+  content?: SerializedEditorState;
   heroImage?: {
     url: string;
     alt?: string;

@@ -1,11 +1,11 @@
 import type { PayloadHandler } from 'payload'
 
-export const exportSubmissionsHandler: PayloadHandler = async (req, res) => {
+export const exportSubmissionsHandler: PayloadHandler = async (req) => {
   const { payload, user } = req
 
   // Check if user is authenticated
   if (!user) {
-    return res.status(401).json({ error: 'Unauthorized' })
+    return Response.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
   try {
@@ -40,14 +40,17 @@ export const exportSubmissionsHandler: PayloadHandler = async (req, res) => {
     })
 
     const csv = rows.join('\n')
+    const filename = `form-submissions-${new Date().toISOString().split('T')[0]}.csv`
 
-    // Set headers for CSV download
-    res.setHeader('Content-Type', 'text/csv')
-    res.setHeader('Content-Disposition', `attachment; filename="form-submissions-${new Date().toISOString().split('T')[0]}.csv"`)
-
-    return res.send(csv)
+    return new Response(csv, {
+      status: 200,
+      headers: {
+        'Content-Type': 'text/csv',
+        'Content-Disposition': `attachment; filename="${filename}"`,
+      },
+    })
   } catch (error) {
     console.error('Error exporting submissions:', error)
-    return res.status(500).json({ error: 'Failed to export submissions' })
+    return Response.json({ error: 'Failed to export submissions' }, { status: 500 })
   }
 }
