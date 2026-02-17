@@ -35,10 +35,10 @@ export default async function GameDetailsPage({ params }: Props) {
   const isHomeGame = game.location === 'LSRHS'
 
   return (
-    <section className="py-[var(--section-padding)]">
+    <section className="pb-[var(--section-padding)]">
       <div className="container">
-        <div className="flex flex-col gap-8">
-          <PageTitle>{game.opponent.name}</PageTitle>
+        <div className="flex flex-col gap-8 pt-[var(--item-gap)]">
+          <PageTitle>Game Details</PageTitle>
 
           <div className="rounded-[var(--radius)] border border-gray-200 p-6 md:p-8">
             <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
