@@ -2,6 +2,13 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "main": ".open-next/worker.js",
   "name": "ls-lacrosse-payload",
+  "routes": [
+    {
+      "pattern": "lslacrosse.com",
+      "zone_name": "lslacrosse.com",
+      "custom_domain": true,
+    },
+  ],
   "compatibility_date": "2025-08-15",
   "compatibility_flags": [
     // Enable Node.js API
@@ -36,6 +43,7 @@
     {
       "binding": "WORKER_SELF_REFERENCE",
       "service": "ls-lacrosse-payload",
+      "environment": "production",
     },
   ],
   "r2_buckets": [
