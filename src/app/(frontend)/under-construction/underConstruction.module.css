@@ -1,0 +1,43 @@
+.main{
+    position:relative;
+	background-image:url(https://global.divhunt.com/d514bf6a29ff761690109ebe45cf41d1_703528.jpeg);
+	background-position:25% 0%;
+    height: 40rem;
+}
+
+.overlay{
+	background:rgba(0,0,0,0.6);
+    position:absolute;
+	top:0%;
+	left:0%;
+	right:auto;
+	bottom:auto;
+	width:100%;
+	height:100%;
+}
+
+.flexWrap{
+    height:100%;
+	display:flex;
+    flex-direction: row;
+	z-index: var(--z-header);
+	align-items:center;
+}
+
+.contentWrapper{
+    display:flex;
+	row-gap:var(--space-s);
+	z-index: var(--z-elevated);
+	flex-direction:column;      
+
+    & .heading{
+        color: #fff;
+        font-size: var(--text-xxl);
+        font-weight: 700;
+    }
+
+    & .text{
+        color: #fff;
+        font-size: var(--text-s);
+    }
+}

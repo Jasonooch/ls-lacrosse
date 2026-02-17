@@ -1,0 +1,61 @@
+.card {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+}
+
+.headerRow {
+    display: table-row;
+    background-color: var(--primary);
+    border-bottom: 3px var(--accent) solid;
+}
+
+.heading {
+    display: table-cell;
+    padding: 12px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    color: #fff;
+}
+
+.contentRow {
+    display: table-row;
+}
+
+.row {
+    display: table-row;
+
+    & .row:first-child .labelCell {
+        border-top: none;
+        }
+        
+    & .row:first-child .dataCell {
+        border-top: none;
+        }
+
+        & .row:last-child .labelCell {
+            border-bottom: 1px solid #000;
+            }
+            
+        & .row:last-child .dataCell {
+            border-bottom: none;
+            }
+
+}
+
+.labelCell {
+color: var(--primary);
+font-size: var(--text-s);
+font-style: normal;
+font-weight: 700;
+line-height: 120%; /* 1.8rem */
+padding: var(--space-xs);
+border: 1px solid #000;
+}
+
+.dataCell {
+    display: table-cell;
+    padding: var(--space-xxs);
+}

@@ -1,0 +1,48 @@
+.headingWrapper{
+flex:0 1 auto;
+	display:block;
+	position:relative;
+	align-self:auto;
+}
+
+.heading{
+
+	color: var(--primary);
+	font-size: var(--step-2);
+	line-height:1.8;
+	margin-top:0px;
+	font-weight:700;
+	margin-bottom:0px;
+}
+
+.heading::before {
+	width:4.5rem;
+	bottom:0px;
+	height:4px;
+	content:"";
+	position:absolute;
+	transform:skew(-50deg);
+	background:var(--accent);
+}
+
+.heading.animateUnderline::before {
+	transform-origin: left center;
+	animation: underline-crawl 700ms cubic-bezier(0.25, 0.9, 0.3, 1) 120ms both;
+}
+
+@keyframes underline-crawl {
+	from {
+		opacity: 0.7;
+		transform: skew(-50deg) scaleX(0);
+	}
+	to {
+		opacity: 1;
+		transform: skew(-50deg) scaleX(1);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.heading.animateUnderline::before {
+		animation: none;
+	}
+}

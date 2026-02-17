@@ -1,0 +1,38 @@
+.main{
+    display:flex;
+	column-gap:1rem;
+	text-decoration:none;
+}
+
+.image{
+	object-fit:cover;
+	border-radius:.5rem;
+	height: 60px;
+	width: 60px;
+}
+
+.content{
+    display:flex;
+	row-gap:.3;
+	flex-direction:column;
+	text-decoration:none;
+}
+
+.heading{
+    color:rgb(0,0,0);
+	font-size:16px;
+	text-decoration:none;
+    line-height: 1.4;
+	font-weight: 700;
+}
+
+.date{
+    color:rgb(0,0,0);
+	font-size:.75rem;
+	font-style:normal;
+	font-weight:400;
+	line-height:1.5;
+	letter-spacing:0px;
+	text-transform:none;
+	text-decoration:none;
+}

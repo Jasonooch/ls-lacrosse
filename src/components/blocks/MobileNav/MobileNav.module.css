@@ -1,0 +1,115 @@
+.navrows {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.1) 0px 2px 4px -2px;
+  position: sticky;
+  top: 0px;
+  z-index: var(--z-sticky);
+}
+
+.mainNav {
+  display: flex;
+  height: 87px;
+  background: var(--primary);
+  border-bottom: 3px solid var(--accent);
+}
+
+.navContainer {
+  display: flex;
+  width: 100%;
+  padding: 10px 20px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  width: 66px;
+  height: 66px;
+}
+
+.hamburger {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  color: white;
+}
+
+.hamburger:hover {
+  background: transparent;
+}
+
+.hamburgerIcon {
+  width: 30px;
+  height: 30px;
+}
+
+.navLink {
+  color: var(--primary);
+  font-weight: 300;
+  line-height: 1.875em;
+  letter-spacing: 0.063rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 0;
+}
+
+.sheet {
+  color: var(--primary);
+}
+
+.subNav {
+  display: flex;
+  height: 60px;
+  background: #fff;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.05);
+  align-items: center;
+}
+
+.subNavContainer {
+  display: flex;
+  width: 100%;
+  padding: 15px 19px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.heading {
+  color: var(--primary);
+  font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: normal;
+  margin: 0;
+}
+
+.dropdownTrigger {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.menuWrapper {
+  display: flex;
+  width: 206px;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 5px;
+}
+
+.menuText {
+  color: #000;
+  font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: normal;
+}
+
+.chevron {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}

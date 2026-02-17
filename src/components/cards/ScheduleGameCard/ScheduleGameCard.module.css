@@ -1,0 +1,177 @@
+.main {
+	display:grid;
+	overflow:hidden;
+	position:relative;
+	align-items:center;
+	padding-top:16px;
+	padding-left:32px;
+	padding-right:32px;
+	padding-bottom:16px;
+	justify-content:flex-start;
+	grid-template-columns:.5fr 1fr 1fr 1fr;
+}
+
+.main:before{
+  left:0;
+	width:10px;
+	height:100%;
+	content:'';
+	z-index: var(--z-base);
+	overflow:hidden;
+	position:absolute;
+	background:var(--primary);
+}
+
+.logoSection{
+width:50%;
+	align-self:auto;
+}
+
+.logoWrapper{
+  display:inline-block;
+	position:relative;
+	 width:7rem;
+	height:5rem;
+}
+
+.logo{
+	object-fit:contain;
+}
+
+.locationBadgeHome {
+	width:24px;
+	height:24px;
+	font-weight: bold;
+	align-items:center;
+	justify-content:center;
+	display:flex;
+	border-radius:100px;
+	color:#fff;
+	background:rgb(9,31,63);
+	position:absolute;
+	right:0;
+	bottom:0;
+	padding-left:0px;
+}
+
+.locationBadgeAway {
+	width:24px;
+	height:24px;
+	font-weight: bold;
+	align-items:center;
+	justify-content:center;
+	display:flex;
+	border-radius:100px;
+	color: var(--color-text-muted);
+	background: var(--color-bg-light);
+	position:absolute;
+	right:0;
+	bottom:0;
+	padding-left:0px;
+}
+
+.detailsWrapper{
+	display:flex;
+	flex-direction:column;
+}
+
+.opponentName {
+  color:var(--primary);
+	font-size:1.2rem;
+	font-weight:700;
+}
+
+
+.locationWrapper {
+   display:flex;
+	column-gap:.5rem;
+	align-items:center;
+}
+
+.locationText{
+  color: var(--color-text-muted);
+}
+
+.scoreSection{
+	display: flex;
+	flex-direction:column;
+}
+
+.scoreWrapper{
+	color: var(--primary);
+	font-size:1.3rem;
+}
+
+.scoreDisplay{
+	display:flex;
+	align-items:center;
+	gap:0.5rem;
+}
+
+.scoreText{
+	color:var(--primary);
+	font-size:1.3rem;
+	font-weight: 700;
+	align-self:center;
+}
+
+.winIndicator{
+	color: var(--color-success);
+	font-weight:bold;
+}
+
+.lossIndicator{
+	color: var(--color-error);
+	font-weight:bold;
+}
+
+.gameTime{
+color:var(--primary);
+font-weight: bold;
+	font-size:1.1rem;
+}
+
+.date{
+	color: var(--color-text-muted);
+    font-size: var(--text-s);
+    font-weight: 300;
+}
+
+.buttonWrapper{
+  display:flex;
+	column-gap:2rem;
+	justify-content:flex-start;
+}
+
+@media (max-width: 768px) {
+  .main {
+    row-gap:1rem;
+	align-items:center;
+	justify-items:center;
+	grid-template-rows:1fr;
+	grid-template-columns:1fr;
+  }
+
+  .logoSection{
+	display:flex;
+	align-self:auto;
+	justify-self:auto;
+	justify-content:center;
+  }
+
+.locationWrapper{
+	align-self:center;
+}
+
+.opponentName{
+	align-self:center;
+}
+
+  .detailsWrapper{
+	display:flex;
+	justify-content:center;
+  }
+  .scoreWrapper{
+	align-self:center;
+  }
+}

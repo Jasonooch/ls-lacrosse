@@ -1,0 +1,144 @@
+.main{
+    padding-top:var(--item-gap);
+	padding-bottom:var(--section-padding);
+}
+
+.grid{
+	display: grid;
+	grid-template-columns: 2.5fr 1fr;
+	gap: var(--space-xs);
+	
+	:has(& > *){
+		container-type: inline-size;	
+	}
+
+	@container (inline-size <= 800px){
+		& {
+			grid-template-columns: 1fr;
+		}
+	}
+
+}
+
+.heroImage{
+position: relative;
+height:29rem;
+
+:has(& > *){
+		container-type: inline-size;	
+	}
+
+	@container (inline-size <= 600px){
+		& {
+			height: 20rem;
+		}
+	}
+
+}
+
+
+.contentWrap{
+	display:flex;
+	row-gap:2.5rem;
+	padding-left:32px;
+	padding-right:32px;
+	flex-direction:column;
+	padding-bottom:32px;
+	justify-content:center;
+
+	& .headingWrap {
+		color: rgb(255, 255, 255);
+	   width: 100%;
+	   display: flex;
+	   row-gap: 1rem;
+	   z-index: var(--z-elevated);
+	   align-self: stretch;
+	   column-gap: 1rem;
+	   margin-top: -32px;
+	   align-items: flex-start;
+	   flex-direction: column;
+	   padding: var(--space-m);
+	   justify-content: center;
+	   background: var(--primary);
+	   border-radius: 0rem 0rem 0.625rem 0.625rem;
+   }
+
+   & .heading{
+	font-size: var(--text-l);
+	font-weight: 700;
+	color: white;
+   }
+
+   & .meta{
+	font-size: var(--xs);
+   }
+
+}
+
+
+.storyWrap{
+    border:1px solid #E0E0E0;
+	overflow:hidden;
+	background:rgba(255,255,255,0.00);
+	box-shadow:0px 1px 2px 0px rgba(0,0,0,0.08);
+	border-radius:0.625rem;
+}
+
+.attribution{
+    left:32px;
+	right:32px;
+	bottom:32px;
+	height:2rem;
+	display:flex;
+	position:absolute;
+	background:rgba(0,0,0,0.70);
+	align-items:center;
+	padding-top:1rem;
+	padding-left:1rem;
+	padding-right:1rem;
+	padding-bottom:1rem;
+	justify-content:flex-end;
+}
+
+.sidebarWrap{
+    display:flex;
+	row-gap:0rem;
+	background:#FFF;
+	border-radius:0.625rem;
+	flex-direction:column;
+}
+
+.relatedWrap{
+   top:calc(163px + 1rem);
+	border:1px solid #E0E0E0;
+	display:flex;
+	row-gap:1.5rem;
+	position:sticky;
+	background:#FFF;
+	column-gap:1rem;
+	align-items:flex-start;
+	padding-top:2.0625rem;
+	padding-left:2.0625rem;
+	border-radius:0.625rem;
+	padding-right:2.0625rem;
+	flex-direction:column;
+	padding-bottom:2.0625rem;
+}
+
+@media (max-width: 768px) {
+
+	.headingWrap {
+		width: 100%;
+	}
+
+	.contentWrap{
+		padding: 0;
+	}
+
+	.attribution {
+		padding-top: 1rem;
+		padding-bottom: 1rem;
+		left:0;
+		right:0;
+	}
+}

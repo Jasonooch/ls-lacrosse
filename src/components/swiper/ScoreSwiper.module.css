@@ -1,0 +1,158 @@
+.main {
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  align-self: center;
+  column-gap: 0.5rem;
+  padding-top: 8px;
+  padding-left: .5rem;
+  padding-right: .5rem;
+  padding-bottom: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+.cardWrapper {
+  width: 95%;
+  overflow: hidden;
+}
+
+.swiper {
+  width: 100%;
+}
+
+.swiper :global(.swiper-slide) {
+  width: auto;
+  height: auto;
+}
+
+.slide {
+  display: flex;
+  justify-content: center;
+}
+
+.arrowWrap {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+  z-index: var(--z-dropdown);
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.navButton {
+  background: white;
+  border: 1px solid var(--primary);
+  border-radius: var(--radius);
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 35px;
+  overflow: hidden;
+  padding: 1px;
+  transition: all 0.3s ease;
+  width: 30px;
+}
+
+.navButton:hover {
+  opacity: 0.8;
+}
+
+.navButton:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.navButton svg {
+  color: var(--primary);
+  width: 15px;
+  height: 15px;
+}
+
+.prevButton {
+  opacity: 1;
+}
+
+.nextButton {
+  opacity: 1;
+}
+
+.calendarLink {
+  color: rgb(255, 255, 255);
+  border: 1px solid var(--navy);
+  display: flex;
+  background: rgb(9, 31, 63);
+  transition: 0.3s ease;
+  align-items: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  justify-content: center;
+  cursor: pointer;
+  height: 6rem;
+  text-decoration: none;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+}
+
+.calendarLink:hover {
+  opacity: 0.9;
+  background: var(--white);
+  border: 1px solid var(--primary);
+}
+
+.calendarLink svg {
+  width: 16px;
+  height: 16px;
+  color: currentColor;
+}
+
+.calendarLink:hover svg {
+  color: var(--primary);
+}
+
+/* Swiper navigation customization - hide default buttons */
+.swiper :global(.swiper-button-prev),
+.swiper :global(.swiper-button-next) {
+  display: none !important;
+}
+
+.swiper :global(.swiper-button-prev::after),
+.swiper :global(.swiper-button-next::after) {
+  display: none !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1023px) {
+  .main {
+    padding: 8px 12px;
+  }
+}
+
+@media (max-width: 639px) {
+  .main {
+    padding: 8px 8px;
+  }
+  
+  .navButton {
+    height: 30px;
+    width: 25px;
+  }
+  
+  .navButton svg {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .calendarLink {
+    height: 30px;
+    padding: 1px 12px;
+  }
+  
+  .calendarLink svg {
+    width: 14px;
+    height: 14px;
+  }
+}

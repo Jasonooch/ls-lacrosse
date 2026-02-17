@@ -1,0 +1,8 @@
+.heading{
+    font-size: var(--text-m);
+    font-weight: bold;
+    border-bottom: 4px solid var(--primary);
+    padding-bottom: var(--space-xxs);
+    background-color: white;
+    color: var(--primary);
+}
