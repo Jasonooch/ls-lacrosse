@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import PageTitle from '@/components/ui/PageTitle/PageTitle';
 import { PaginatedTable } from '@/components/tables/PaginatedTable/PaginatedTable';
 import { getPosts } from '@/lib/api/posts';

@@ -1,4 +1,6 @@
 // app/roster/page.tsx
+export const dynamic = 'force-dynamic';
+
 import PageTitle from '@/components/ui/PageTitle/PageTitle';
 import Table from '@/components/tables/Table/Table';
 import { getLatestRoster } from '@/lib/api/rosters';

@@ -1,4 +1,6 @@
 // app/page.tsx
+export const dynamic = 'force-dynamic';
+
 import Image from "next/image";
 import MainNews from "@/components/layouts/MainNews/MainNews";
 import NextGameCard from '@/components/cards/NextGameCard';

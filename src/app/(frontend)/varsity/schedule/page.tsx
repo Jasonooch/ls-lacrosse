@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import PageTitle from '@/components/ui/PageTitle/PageTitle';
 import ScheduleGameCard from '@/components/cards/ScheduleGameCard/ScheduleGameCard';
 import SeasonSelector from '@/components/ui/season-selector';
