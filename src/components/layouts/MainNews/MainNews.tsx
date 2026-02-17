@@ -1,6 +1,4 @@
 // src/app/components/MainNewsGrid.tsx
-
-import React from 'react';
 import MainNewsCard from '../../cards/MainNewsCard';
 import styles from './MainNews.module.css';
 
@@ -9,7 +7,7 @@ interface Post {
   title: string;
   slug: string;
   heroImage?: {
-    url: string;
+    url?: string | null;
     alt?: string;
   };
   publishedAt?: string;

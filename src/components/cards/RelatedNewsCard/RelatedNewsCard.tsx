@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from '@/components/cards/RelatedNewsCard/RelatedNewsCard.module.css';
-import { getCmsMediaUrl } from '@/lib/cms-url';
 
 interface RelatedNewsCardProps {
   post: {
@@ -9,13 +8,13 @@ interface RelatedNewsCardProps {
     slug: string;
     publishedAt?: string;
     heroImage?: {
-      url: string;
+      url?: string | null;
       alt?: string;
     };
   };
 }
 
-const RelatedNewsCard: React.FC<RelatedNewsCardProps> = ({ post }) => {
+const RelatedNewsCard = ({ post }: RelatedNewsCardProps) => {
   const formattedDate = post.publishedAt
     ? new Date(post.publishedAt).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -24,9 +23,7 @@ const RelatedNewsCard: React.FC<RelatedNewsCardProps> = ({ post }) => {
       })
     : '';
 
-  const imageUrl =
-    getCmsMediaUrl(post.heroImage?.url) ||
-    'https://global.divhunt.com/8b56dae8a68ea38be0b7b58252778780_148686.webp';
+  const imageUrl = post.heroImage?.url || '/images/logo.png';
 
   const imageAlt = post.heroImage?.alt || post.title;
 

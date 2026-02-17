@@ -1,19 +1,19 @@
-import React from 'react';
+import type { ReactNode } from 'react';
 import styles from './PageTitle.module.css';
 
 interface PageTitleProps {
-    children: React.ReactNode;
+    children: ReactNode;
     className?: string;
     headingClassName?: string;
     animateUnderline?: boolean;
 }
 
-const PageTitle: React.FC<PageTitleProps> = ({
+const PageTitle = ({
     children,
     className,
     headingClassName,
     animateUnderline = false,
-}) => {
+}: PageTitleProps) => {
     const wrapperClasses = [styles.headingWrapper, className].filter(Boolean).join(' ');
     const headingClasses = [
         styles.heading,

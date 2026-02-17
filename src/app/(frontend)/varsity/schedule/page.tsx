@@ -2,7 +2,6 @@ import PageTitle from '@/components/ui/PageTitle/PageTitle';
 import ScheduleGameCard from '@/components/cards/ScheduleGameCard/ScheduleGameCard';
 import SeasonSelector from '@/components/ui/season-selector';
 import { getSeasonGames } from '@/lib/api/games/games';
-import { getCmsMediaUrl } from '@/lib/cms-url';
 // import Button from '@/components/Button';
 import { Button } from '@/components/ui/button';
 import { CirclePlus } from 'lucide-react';
@@ -113,7 +112,7 @@ export default async function VarsitySchedulePage({ searchParams }: Props) {
                     key={game.id}
                     opponentName={game.opponent.name}
                     opponentLogo={
-                      getCmsMediaUrl(game.opponent.logo?.url)
+                      game.opponent.logo?.url
                     }
                     location={game.location}
                     date={new Date(game.date).toLocaleDateString('en-US', {

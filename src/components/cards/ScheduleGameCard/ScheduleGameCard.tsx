@@ -17,7 +17,7 @@ interface ScheduleGameCardProps {
   slug: string;
 }
 
-const ScheduleGameCard: React.FC<ScheduleGameCardProps> = ({
+const ScheduleGameCard = ({
   opponentName,
   opponentLogo,
   location,
@@ -26,7 +26,7 @@ const ScheduleGameCard: React.FC<ScheduleGameCardProps> = ({
   lsFinal,
   opponentFinal,
   slug,
-}) => {
+}: ScheduleGameCardProps) => {
   // 1. Has the game been played?
   const hasScore = lsFinal !== undefined && opponentFinal !== undefined && lsFinal !== null && opponentFinal !== null;
 

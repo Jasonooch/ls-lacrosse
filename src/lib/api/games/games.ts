@@ -11,7 +11,7 @@ export type Game = {
   opponent: {
     name: string;
     logo?: {
-      url: string;
+      url?: string | null;
       alt?: string;
     };
   };

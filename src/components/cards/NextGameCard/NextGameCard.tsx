@@ -6,7 +6,6 @@ import { Button } from '../../ui/button';
 import { Card, CardContent } from '../../ui/card';
 import { Clock } from 'lucide-react';
 import { ArrowRight } from 'lucide-react';
-import { getCmsMediaUrl } from '@/lib/cms-url';
 
 
 
@@ -15,7 +14,7 @@ interface Game {
   opponent: {
     name: string;
     logo?: {
-      url: string;
+      url?: string | null;
       alt?: string;
     };
   };
@@ -54,7 +53,7 @@ export default function NextGameCard({ game }: NextGameCardProps) {
   }).format(dateObj);
   const isHome = game.location === 'LSRHS';
 
-  const opponentLogoUrl = getCmsMediaUrl(game.opponent.logo?.url) || null;
+  const opponentLogoUrl = game.opponent.logo?.url || null;
 
   return (
     <Card className="w-full">

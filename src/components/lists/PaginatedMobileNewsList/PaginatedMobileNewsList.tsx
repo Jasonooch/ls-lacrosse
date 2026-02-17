@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import MobileNewsCard from '@/components/cards/MobileNewsCard';
 import { Post } from '@/lib/api/posts/posts';
 import {

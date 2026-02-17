@@ -12,7 +12,6 @@ import { Button } from '@/components/ui/button';
 
 import { getPosts } from '@/lib/api/posts';
 import { getNextGame } from '@/lib/api/games/games'; // ← Only need this one
-import { getCmsMediaUrl } from '@/lib/cms-url';
 
 // export const dynamic = 'force-dynamic';
 
@@ -48,7 +47,7 @@ export default async function SinglePostPage({
       })
     : 'No date';
 
-  const heroImageUrl = getCmsMediaUrl(post.heroImage?.url) || null;
+  const heroImageUrl = post.heroImage?.url || null;
 
   const heroImageAlt = post.heroImage?.alt || post.title;
 

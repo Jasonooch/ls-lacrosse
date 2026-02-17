@@ -5,7 +5,6 @@ import { notFound } from 'next/navigation'
 import PageTitle from '@/components/ui/PageTitle/PageTitle'
 import { Button } from '@/components/ui/button'
 import { getGameBySlug } from '@/lib/api/games/games'
-import { getCmsMediaUrl } from '@/lib/cms-url'
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -32,7 +31,7 @@ export default async function GameDetailsPage({ params }: Props) {
     hour12: true,
   }).format(gameDate)
 
-  const opponentLogoUrl = getCmsMediaUrl(game.opponent.logo?.url)
+  const opponentLogoUrl = game.opponent.logo?.url
   const isHomeGame = game.location === 'LSRHS'
 
   return (

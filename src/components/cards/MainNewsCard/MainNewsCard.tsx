@@ -3,13 +3,12 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from './MainNewsCard.module.css'
-import { getCmsMediaUrl } from '@/lib/cms-url';
 
 interface MainNewsCardProps {
   title: string;
   slug: string;
   heroImage?: {
-    url: string;
+    url?: string | null;
     alt?: string;
   };
   publishedAt?: string;
@@ -31,7 +30,7 @@ export default function MainNewsCard({
       })
     : null;
 
-  const imageUrl = getCmsMediaUrl(heroImage?.url) || null;
+  const imageUrl = heroImage?.url || null;
 
   const imageAlt = heroImage?.alt || title;
 

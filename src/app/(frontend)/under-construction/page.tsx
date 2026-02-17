@@ -1,4 +1,3 @@
-import React from 'react'
 import styles from './underConstruction.module.css'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'

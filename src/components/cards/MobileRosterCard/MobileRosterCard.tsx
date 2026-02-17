@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './MobileRosterCard.module.css';
 import { Card } from '@/components/ui/card';
 
@@ -9,12 +8,12 @@ interface MobileRosterCardProps {
   graduationYear: string;
 }
 
-const MobileRosterCard: React.FC<MobileRosterCardProps> = ({
+const MobileRosterCard = ({
   jerseyNumber,
   fullName,
   position,
   graduationYear,
-}) => {
+}: MobileRosterCardProps) => {
   return (
     <Card className={styles.card}>
       <div className={styles.numberContainer}>

@@ -1,12 +1,12 @@
-import React from 'react'
+import type { ReactNode } from 'react'
 import styles from './HeadingUnderline.module.css'
 import { Separator } from '../separator'
 
 interface HeadingUnderlineProps {
-  children: React.ReactNode
+  children: ReactNode
 }
 
-const HeadingUnderline: React.FC<HeadingUnderlineProps> = ({ children }) => {
+const HeadingUnderline = ({ children }: HeadingUnderlineProps) => {
   return (
     <div className="w-full flex flex-col items-start mb-4">
       <h2 className={styles.heading}>{children}</h2>

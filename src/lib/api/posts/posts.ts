@@ -9,7 +9,7 @@ export type Post = {
   slug: string;
   content?: SerializedEditorState;
   heroImage?: {
-    url: string;
+    url?: string | null;
     alt?: string;
   };
   publishedAt?: string;

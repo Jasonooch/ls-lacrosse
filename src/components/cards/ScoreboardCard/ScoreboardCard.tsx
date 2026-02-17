@@ -2,7 +2,6 @@ import Image from 'next/image';
 import styles from './ScoreboardCard.module.css';
 import type { Game } from '@/lib/api/games/games';
 import { Card } from '@/components/ui/card';
-import { getCmsMediaUrl } from '@/lib/cms-url';
 
 interface ScoreboardCardProps {
   game: Game;
@@ -52,7 +51,7 @@ export default function ScoreboardCard({
         <div className={styles.teamInfo}>
           <div className={styles.logoWrapper}>
             <Image
-              src={getCmsMediaUrl(game.opponent.logo?.url) || '/images/logo.png'}
+              src={game.opponent.logo?.url || '/images/logo.png'}
               alt={game.opponent.logo?.alt || `${game.opponent.name} logo`}
               width={40}
               height={32}

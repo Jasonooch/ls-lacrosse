@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './TableCard.module.css';
 import { Card } from '@/components/ui/card';
 
@@ -6,7 +5,7 @@ interface TableCardProps {
   className?: string;
 }
 
-const TableCard: React.FC<TableCardProps> = ({ className }) => {
+const TableCard = ({ className }: TableCardProps) => {
   return (
     <Card className="overflow-hidden p-0">
       <table className={`${styles.card} ${className || ''}`}>

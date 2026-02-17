@@ -1,4 +1,4 @@
-import React, { type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 export interface Column {
   header: string;
@@ -12,7 +12,7 @@ interface TableProps {
   gridTemplate?: string;
 }
 
-const Table: React.FC<TableProps> = ({ columns, data, gridTemplate }) => {
+const Table = ({ columns, data, gridTemplate }: TableProps) => {
   const gridCols = gridTemplate || `repeat(${columns.length}, 1fr)`;
 
   return (

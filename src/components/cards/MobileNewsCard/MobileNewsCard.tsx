@@ -1,9 +1,7 @@
-import React from 'react';
 import styles from './MobileNewsCard.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Card } from '@/components/ui/card';
-import { getCmsMediaUrl } from '@/lib/cms-url';
 
 interface MobileNewsCardProps {
   title: string;
@@ -28,7 +26,7 @@ export default function MobileNewsCard({
   const monthDay = formattedDate?.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
   const year = formattedDate?.toLocaleDateString('en-US', { year: 'numeric' });
 
-  const imageUrl = getCmsMediaUrl(heroImage?.url) || null;
+  const imageUrl = heroImage?.url || null;
 
   const imageAlt = heroImage?.alt || title;
 

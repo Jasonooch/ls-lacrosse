@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import {
   Table,
   TableBody,
@@ -26,7 +26,7 @@ export interface Column {
 
 interface PaginatedTableProps {
   columns: Column[];
-  data: Record<string, string | React.ReactNode>[];
+  data: Record<string, string | ReactNode>[];
   gridTemplate?: string;
   className?: string;
   itemsPerPage?: number;

@@ -9,7 +9,7 @@ interface NewsLinkProps {
   };
 }
 
-const NewsLink: React.FC<NewsLinkProps> = ({ post }) => {
+const NewsLink = ({ post }: NewsLinkProps) => {
   const year = post.publishedAt 
     ? new Date(post.publishedAt).getFullYear() 
     : new Date().getFullYear(); // Fallback to current year if no date
