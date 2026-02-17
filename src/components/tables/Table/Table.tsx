@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type ReactNode } from 'react';
 
 export interface Column {
   header: string;
@@ -8,7 +8,7 @@ export interface Column {
 
 interface TableProps {
   columns: Column[];
-  data: Record<string, unknown>[];
+  data: Record<string, ReactNode>[];
   gridTemplate?: string;
 }
 
@@ -54,7 +54,7 @@ const Table: React.FC<TableProps> = ({ columns, data, gridTemplate }) => {
                 key={col.accessor}
                 className={`font-medium text-base px-8 py-4 ${col.className || ''}`}
               >
-                {typeof row[col.accessor] === 'object' ? row[col.accessor] : row[col.accessor]}
+                {row[col.accessor]}
               </div>
             ))}
           </div>
