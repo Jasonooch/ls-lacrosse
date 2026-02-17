@@ -43,7 +43,6 @@
     {
       "binding": "WORKER_SELF_REFERENCE",
       "service": "ls-lacrosse-payload",
-      "environment": "production",
     },
   ],
   "r2_buckets": [
