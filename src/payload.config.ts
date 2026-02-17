@@ -24,18 +24,19 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 const isCLI = process.argv.some((value) => value.match(/^(generate|migrate|build):?/))
+const isBuildPhase = process.env.CI === 'true' || process.env.NEXT_PHASE === 'phase-production-build'
 const isProduction = process.env.NODE_ENV === 'production'
+const buildOnlySecret = 'build-only-payload-secret'
+const payloadSecret = process.env.PAYLOAD_SECRET || (isCLI || isBuildPhase ? buildOnlySecret : undefined)
 
-// Validate PAYLOAD_SECRET is set - critical for security (JWT signing, session encryption)
-if (!process.env.PAYLOAD_SECRET) {
+// Require a real secret in non-build runtime. Build/CLI can use a placeholder to allow compilation.
+if (!payloadSecret) {
   throw new Error(
     'PAYLOAD_SECRET environment variable is required.\n' +
       'Generate one using: openssl rand -hex 32\n' +
       'Then add it to your .env file or Cloudflare environment variables.',
   )
 }
-
-const payloadSecret = process.env.PAYLOAD_SECRET
 
 const cloudflare =
   isCLI || !isProduction
