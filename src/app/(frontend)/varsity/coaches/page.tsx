@@ -1,51 +1,57 @@
-// app/roster/page.tsx
+export const dynamic = 'force-dynamic';
+
 import PageTitle from '@/components/ui/PageTitle/PageTitle';
 import Table from '@/components/tables/Table/Table';
-import { getLatestRoster } from '@/lib/api/rosters';
+import SeasonSelector from '@/components/ui/season-selector';
+import {
+  getCoachingStaffYears,
+  getCoachingStaffByYear,
+} from '@/lib/api/coaching-staff/coaching-staff';
 
-// Columns — match the transformed data keys
 const columns = [
-  { accessor: 'jerseyNumber', header: 'NUMBER' },
-  { accessor: 'fullName', header: 'NAME' },
-  { accessor: 'position', header: 'POSITION' },
-  { accessor: 'graduationYear', header: 'YOG' },
+  { accessor: 'name', header: 'NAME' },
+  { accessor: 'role', header: 'ROLE' },
 ];
 
-export default async function Roster() {
-  const latestRoster = await getLatestRoster();
+type Props = {
+  searchParams: Promise<{ year?: string }>;
+};
 
-  if (!latestRoster || !latestRoster.players || latestRoster.players.length === 0) {
-    return (
-        <section className="pb-[var(--section-padding)]">
-          <div className="container">
-            <div className="pt-[var(--item-gap)] flex flex-col gap-y-8">
-              <PageTitle>Coaches</PageTitle>
-              <p className="text-center text-gray-600">No coach data available at this time.</p>
-            </div>
-          </div>
-        </section>
-    );
-  }
+export default async function CoachesPage({ searchParams }: Props) {
+  const [params, years] = await Promise.all([
+    searchParams,
+    getCoachingStaffYears(),
+  ]);
 
-  // Transform player data to match table keys
-const players = latestRoster.players.map((player) => ({
-    jerseyNumber: player.jerseyNumber ?? '-',
-    fullName: player.fullName,
-    position: player.position ?? '-',
-    graduationYear: player.graduationYear ?? '-',   // ← this now comes as "2026"
-  }));
+  const selectedYear = years.find((y) => y === params.year) ?? years[0];
 
-  // Dynamic title: "2025 Roster" or "2026 Roster"
-  const pageTitle = `${latestRoster.season} Varsity Roster`;
+  const staff = selectedYear ? await getCoachingStaffByYear(selectedYear) : null;
+
+  // SeasonSelector expects { id: number, year: string }[]
+  const seasons = years.map((y, i) => ({ id: i, year: y }));
 
   return (
     <main>
       <section className="pb-[var(--section-padding)]">
         <div className="container">
-          <div className="pt-[var(--item-gap)] flex flex-col gap-y-8">
-            <PageTitle>{pageTitle}</PageTitle>
+          <div className="pt-[var(--item-gap)] flex flex-col gap-y-6">
+            <PageTitle>
+              {selectedYear ? `${selectedYear} Coaching Staff` : 'Coaching Staff'}
+            </PageTitle>
 
-            <Table columns={columns} data={players} />
+            {seasons.length > 0 && (
+              <div className="flex justify-end">
+                <SeasonSelector seasons={seasons} currentYear={selectedYear ?? ''} />
+              </div>
+            )}
+
+            {staff && staff.coaches.length > 0 ? (
+              <Table columns={columns} data={staff.coaches} />
+            ) : (
+              <p className="text-center text-gray-600">
+                No coaching staff data available for this year.
+              </p>
+            )}
           </div>
         </div>
       </section>
