@@ -1,5 +1,5 @@
 // app/news/[slug]/page.tsx
-export const dynamic = 'force-dynamic';
+export const revalidate = 300;
 
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
@@ -15,8 +15,6 @@ import { getPosts } from '@/lib/api/posts';
 import { getNextGame } from '@/lib/api/games/games'; // ← Only need this one
 import { formatInEasternTime } from '@/lib/date-time';
 
-// export const dynamic = 'force-dynamic';
-
 export default async function SinglePostPage({
   params,
 }: {
@@ -30,7 +28,7 @@ export default async function SinglePostPage({
     getPosts({ limit: 1, slug: slug }),
 
     // 2. Related: latest 4 excluding current
-    getPosts({ limit: 4, excludeSlug: slug }), // Changed to 4 since you only need 4
+    getPosts({ limit: 4, excludeSlug: slug, select: { id: true, title: true, slug: true, heroImage: true, publishedAt: true } }),
 
     // 3. Next game - using NEW API
     getNextGame(), // ← Changed from getNextVarsityGame()

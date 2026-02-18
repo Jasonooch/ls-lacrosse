@@ -5,6 +5,13 @@ import PageTitle from '@/components/ui/PageTitle/PageTitle';
 import Table from '@/components/tables/Table/Table';
 import { getLatestRoster } from '@/lib/api/rosters';
 import MobileRosterCard from '@/components/cards/MobileRosterCard/MobileRosterCard';
+import { unstable_cache } from 'next/cache';
+
+const getCachedLatestRoster = unstable_cache(
+  () => getLatestRoster(),
+  ['latest-roster'],
+  { revalidate: 3600 }
+);
 
 // Columns — match the transformed data keys
 const columns = [
@@ -15,7 +22,7 @@ const columns = [
 ];
 
 export default async function Roster() {
-  const latestRoster = await getLatestRoster();
+  const latestRoster = await getCachedLatestRoster();
 
   if (!latestRoster || !latestRoster.players || latestRoster.players.length === 0) {
     return (

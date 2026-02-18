@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 import PageTitle from '@/components/ui/PageTitle/PageTitle';
 import ScheduleGameCard from '@/components/cards/ScheduleGameCard/ScheduleGameCard';
@@ -11,6 +11,7 @@ import { cache } from 'react';
 import { getPayload } from 'payload';
 import config from '@payload-config';
 import { getEasternYear } from '@/lib/date-time';
+import { unstable_cache } from 'next/cache';
 
 type SeasonOption = {
   id: number
@@ -23,31 +24,42 @@ type Props = {
   }>;
 };
 
-// Extract unique seasons from games data
-// Using React cache() to deduplicate calls between generateMetadata and page component
-const getSeasons = cache(async () => {
-  const payload = await getPayload({ config });
+// unstable_cache: caches across requests (revalidates every hour)
+// React cache(): deduplicates within a single request (generateMetadata + page both call this)
+const _getCachedSeasons = unstable_cache(
+  async () => {
+    const payload = await getPayload({ config });
 
-  const result = await payload.find({
-    collection: 'games',
-    depth: 1,
-    limit: 100,
-    where: { _status: { equals: 'published' } },
-    select: { season: true, date: true },
-  });
+    const result = await payload.find({
+      collection: 'games',
+      depth: 1,
+      limit: 100,
+      where: { _status: { equals: 'published' } },
+      select: { season: true, date: true },
+    });
 
-  const seasonMap = new Map<number, SeasonOption>();
-  for (const game of result.docs) {
-    const season = game.season as unknown as { id: number } | number;
-    const seasonId = typeof season === 'object' && season !== null ? season.id : (season as number);
-    if (seasonId && !seasonMap.has(seasonId)) {
-      const year = getEasternYear(game.date as string);
-      seasonMap.set(seasonId, { id: seasonId, year });
+    const seasonMap = new Map<number, SeasonOption>();
+    for (const game of result.docs) {
+      const season = game.season as unknown as { id: number } | number;
+      const seasonId = typeof season === 'object' && season !== null ? season.id : (season as number);
+      if (seasonId && !seasonMap.has(seasonId)) {
+        const year = getEasternYear(game.date as string);
+        seasonMap.set(seasonId, { id: seasonId, year });
+      }
     }
-  }
 
-  return Array.from(seasonMap.values()).sort((a, b) => b.year.localeCompare(a.year));
-});
+    return Array.from(seasonMap.values()).sort((a, b) => b.year.localeCompare(a.year));
+  },
+  ['schedule-seasons'],
+  { revalidate: 3600 }
+);
+const getSeasons = cache(() => _getCachedSeasons());
+
+const getCachedSeasonGames = unstable_cache(
+  (seasonId?: string) => getSeasonGames({ seasonId }),
+  ['season-games'],
+  { revalidate: 60 }
+);
 
 export async function generateMetadata({ searchParams }: Props) {
   // Parallel fetch - params and seasons are independent
@@ -76,9 +88,7 @@ export default async function VarsitySchedulePage({ searchParams }: Props) {
   const selectedYear = selectedSeason?.year || '2025';
 
   // Fetch games for selected season (dependent on selected season, can't parallelize)
-  const games = await getSeasonGames({
-    seasonId: selectedSeason?.id?.toString(),
-  });
+  const games = await getCachedSeasonGames(selectedSeason?.id?.toString());
 
   const pageTitle = `${selectedYear} Varsity Schedule`;
 

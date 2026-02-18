@@ -12,15 +12,28 @@ import { getNextGame } from '@/lib/api/games/games';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import styles from './page.module.css';
+import { unstable_cache } from 'next/cache';
 
+const getCachedPosts = unstable_cache(
+  () => getPosts({
+    limit: 12,
+    select: { id: true, title: true, slug: true, heroImage: true, publishedAt: true },
+  }),
+  ['home-posts'],
+  { revalidate: 60 }
+);
 
+const getCachedNextGame = unstable_cache(
+  () => getNextGame(),
+  ['next-game'],
+  { revalidate: 60 }
+);
 
 // Main page component
 export default async function Home() {
-  // Fetch all data in parallel - FIXED WATERFALL
   const [postsData, nextGame] = await Promise.all([
-    getPosts({ limit: 12 }),
-    getNextGame()
+    getCachedPosts(),
+    getCachedNextGame(),
   ]);
 
   const latestPosts = postsData.docs.slice(0, 4);   // For grid

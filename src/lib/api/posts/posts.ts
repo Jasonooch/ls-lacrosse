@@ -22,11 +22,13 @@ export async function getPosts({
   page = 1,
   excludeSlug,
   slug,
+  select,
 }: {
   limit?: number;
   page?: number;
   excludeSlug?: string;
   slug?: string;
+  select?: Record<string, true>;
 } = {}): Promise<{
   docs: Post[];
   totalDocs?: number;
@@ -49,11 +51,12 @@ export async function getPosts({
 
   const result = await payload.find({
     collection: 'posts',
-    depth: 3,
+    depth: 1,
     sort: '-publishedAt',
     limit,
     page,
     where,
+    ...(select && { select }),
   })
 
   return {

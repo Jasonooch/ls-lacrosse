@@ -9,13 +9,30 @@ import { getPayload } from 'payload';
 import config from '@payload-config';
 import type { Year } from '@/types/cms';
 import { formatInEasternTime } from '@/lib/date-time';
+import { unstable_cache } from 'next/cache';
+
+const getCachedPosts = unstable_cache(
+  () => getPosts({
+    limit: 100,
+    select: { id: true, title: true, slug: true, publishedAt: true, season: true },
+  }),
+  ['news-posts'],
+  { revalidate: 60 }
+);
+
+const getCachedYears = unstable_cache(
+  async () => {
+    const payload = await getPayload({ config });
+    return payload.find({ collection: 'years', limit: 100 });
+  },
+  ['years'],
+  { revalidate: 3600 }
+);
 
 export default async function Page() {
-  const payload = await getPayload({ config });
-
   const [postsData, yearsResult] = await Promise.all([
-    getPosts({ limit: 100 }),
-    payload.find({ collection: 'years', limit: 100 }),
+    getCachedPosts(),
+    getCachedYears(),
   ]);
 
   const posts = postsData.docs.sort((a, b) => {
