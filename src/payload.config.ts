@@ -69,8 +69,12 @@ export default buildConfig({
   }),
   plugins: [
     seoPlugin({
-      collections: ['posts'],
+      collections: [],
       uploadsCollection: 'media',
+      generateTitle: ({ doc }) => `${doc?.title || ''} | LS Lacrosse`,
+      generateDescription: ({ doc }) => doc?.meta?.description || '',
+      generateURL: ({ doc }) =>
+        `${process.env.FRONTEND_URL || 'https://lslacrosse.com'}/news/${doc?.slug || ''}`,
     }),
     s3Storage({
       collections: { media: true },

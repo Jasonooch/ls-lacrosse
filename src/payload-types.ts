@@ -159,21 +159,21 @@ export interface Post {
     };
     [k: string]: unknown;
   };
-  season?: (number | null) | Year;
-  author?: (number | null) | User;
-  photoAttribution?: string | null;
   categories?: (number | Category)[] | null;
   relatedPosts?: (number | Post)[] | null;
   meta?: {
     title?: string | null;
-    description?: string | null;
     /**
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
     image?: (number | null) | Media;
+    description?: string | null;
   };
-  slug: string;
   publishedAt?: string | null;
+  author?: (number | null) | User;
+  season?: (number | null) | Year;
+  photoAttribution?: string | null;
+  slug: string;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -197,11 +197,12 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "years".
+ * via the `definition` "categories".
  */
-export interface Year {
+export interface Category {
   id: number;
-  year: string;
+  title: string;
+  slug: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -232,12 +233,11 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "categories".
+ * via the `definition` "years".
  */
-export interface Category {
+export interface Year {
   id: number;
-  title: string;
-  slug: string;
+  year: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -575,20 +575,20 @@ export interface PostsSelect<T extends boolean = true> {
   title?: T;
   heroImage?: T;
   content?: T;
-  season?: T;
-  author?: T;
-  photoAttribution?: T;
   categories?: T;
   relatedPosts?: T;
   meta?:
     | T
     | {
         title?: T;
-        description?: T;
         image?: T;
+        description?: T;
       };
-  slug?: T;
   publishedAt?: T;
+  author?: T;
+  season?: T;
+  photoAttribution?: T;
+  slug?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

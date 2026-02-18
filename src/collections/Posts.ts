@@ -68,30 +68,6 @@ export const Posts: CollectionConfig = {
           label: 'Meta',
           fields: [
             {
-              name: 'season',
-              type: 'relationship',
-              relationTo: 'years',
-              hasMany: false,
-              admin: {
-                position: 'sidebar',
-              },
-            },
-            {
-              name: 'author',
-              type: 'relationship',
-              relationTo: 'users',
-              admin: {
-                position: 'sidebar',
-              },
-            },
-            {
-              name: 'photoAttribution',
-              type: 'text',
-              admin: {
-                position: 'sidebar',
-              },
-            },
-            {
               name: 'categories',
               type: 'relationship',
               relationTo: 'categories',
@@ -128,20 +104,64 @@ export const Posts: CollectionConfig = {
               imagePath: 'meta.image',
             }),
             MetaTitleField({
-              hasGenerateFn: false,
+              hasGenerateFn: true,
             }),
             MetaImageField({
               relationTo: 'media',
             }),
             MetaDescriptionField({}),
             PreviewField({
-              hasGenerateFn: false,
+              hasGenerateFn: true,
               titlePath: 'meta.title',
               descriptionPath: 'meta.description',
             }),
           ],
         },
       ],
+    },
+    {
+      name: 'publishedAt',
+      type: 'date',
+      admin: {
+        date: {
+          pickerAppearance: 'dayAndTime',
+        },
+        position: 'sidebar',
+      },
+      hooks: {
+        beforeChange: [
+          ({ siblingData, value }) => {
+            if (siblingData._status === 'published' && !value) {
+              return new Date()
+            }
+            return value
+          },
+        ],
+      },
+    },
+    {
+      name: 'author',
+      type: 'relationship',
+      relationTo: 'users',
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
+      name: 'season',
+      type: 'relationship',
+      relationTo: 'years',
+      hasMany: false,
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
+      name: 'photoAttribution',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'slug',
@@ -161,26 +181,6 @@ export const Posts: CollectionConfig = {
                 .replace(/\s+/g, '-')
                 .replace(/-+/g, '-')
                 .trim()
-            }
-            return value
-          },
-        ],
-      },
-    },
-    {
-      name: 'publishedAt',
-      type: 'date',
-      admin: {
-        date: {
-          pickerAppearance: 'dayAndTime',
-        },
-        position: 'sidebar',
-      },
-      hooks: {
-        beforeChange: [
-          ({ siblingData, value }) => {
-            if (siblingData._status === 'published' && !value) {
-              return new Date()
             }
             return value
           },
