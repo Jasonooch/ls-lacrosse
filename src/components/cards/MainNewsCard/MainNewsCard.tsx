@@ -11,6 +11,8 @@ interface MainNewsCardProps {
   heroImage?: {
     url?: string | null;
     alt?: string;
+    focalX?: number | null;
+    focalY?: number | null;
   };
   publishedAt?: string;
   isMain?: boolean;
@@ -48,10 +50,15 @@ export default function MainNewsCard({
           fill
           className={styles.image}
           priority={isMain}
-          sizes={isMain 
-    ? "(max-width: 768px) 100vw, 60vw" 
+          sizes={isMain
+    ? "(max-width: 768px) 100vw, 60vw"
     : "(max-width: 768px) 100vw, 30vw"
   }
+          style={{
+            objectPosition: heroImage?.focalX != null && heroImage?.focalY != null
+              ? `${heroImage.focalX}% ${heroImage.focalY}%`
+              : '50% 25%',
+          }}
         />
       ) : (
         <div className="absolute inset-0 bg-gray-800 flex items-center justify-center">

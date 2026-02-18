@@ -66,7 +66,12 @@ export default async function SinglePostPage({
                     alt={heroImageAlt}
                     fill
                     sizes="(max-width: 768px) 100vw, 66vw"
-                    style={{ objectFit: 'cover', objectPosition: '50% 25%' }}
+                    style={{
+                      objectFit: 'cover',
+                      objectPosition: post.heroImage?.focalX != null && post.heroImage?.focalY != null
+                        ? `${post.heroImage.focalX}% ${post.heroImage.focalY}%`
+                        : '50% 25%',
+                    }}
                     priority
                   />
                   <div className={styles.attribution}>

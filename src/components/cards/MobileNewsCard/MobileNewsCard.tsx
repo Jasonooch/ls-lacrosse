@@ -10,6 +10,8 @@ interface MobileNewsCardProps {
   heroImage?: {
     url?: string;
     alt?: string;
+    focalX?: number | null;
+    focalY?: number | null;
   };
   publishedAt: string;
 }
@@ -37,12 +39,17 @@ export default function MobileNewsCard({
         <div className={styles.flexWrap}>
           <div className={styles.imageWrap}>
             {imageUrl ? (
-              <Image 
-                className={styles.image} 
-                fill 
-                src={imageUrl} 
+              <Image
+                className={styles.image}
+                fill
+                src={imageUrl}
                 alt={imageAlt}
                 sizes="(max-width: 768px) 75px, 75px"
+                style={{
+                  objectPosition: heroImage?.focalX != null && heroImage?.focalY != null
+                    ? `${heroImage.focalX}% ${heroImage.focalY}%`
+                    : 'center',
+                }}
               />
             ) : (
               <div className={styles.placeholderImage}></div>

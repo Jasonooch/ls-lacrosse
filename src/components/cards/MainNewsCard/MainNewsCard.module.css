@@ -71,7 +71,6 @@
 	position:absolute;
 	object-fit:cover;
 	transition:transform 0.3s ease;
-	object-position:50% 25%; 
 }
 
 .textWrapper{

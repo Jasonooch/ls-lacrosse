@@ -1,3 +1,4 @@
+export const revalidate = 60;
 
 import PageTitle from '@/components/ui/PageTitle/PageTitle';
 import { PaginatedTable } from '@/components/tables/PaginatedTable/PaginatedTable';

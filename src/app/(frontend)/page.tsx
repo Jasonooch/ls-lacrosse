@@ -1,4 +1,5 @@
 // app/page.tsx
+export const revalidate = 60;
 
 import Image from "next/image";
 import MainNews from "@/components/layouts/MainNews/MainNews";

@@ -11,6 +11,8 @@ export type Post = {
   heroImage?: {
     url?: string | null;
     alt?: string;
+    focalX?: number | null;
+    focalY?: number | null;
   };
   publishedAt?: string;
   season?: Year;
