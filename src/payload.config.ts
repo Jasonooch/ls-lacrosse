@@ -1,6 +1,7 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { s3Storage } from '@payloadcms/storage-s3'
+import { seoPlugin } from '@payloadcms/plugin-seo'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -10,6 +11,7 @@ import { Media } from './collections/Media'
 import { Level } from './collections/Level'
 import { Years } from './collections/Years'
 import { Posts } from './collections/Posts'
+import { Categories } from './collections/Categories'
 import { Players } from './collections/Players'
 import { Opponents } from './collections/Opponents'
 import { Rosters } from './collections/Rosters'
@@ -42,6 +44,7 @@ export default buildConfig({
   },
   collections: [
     Posts,
+    Categories,
     Games,
     Players,
     Rosters,
@@ -65,6 +68,10 @@ export default buildConfig({
     },
   }),
   plugins: [
+    seoPlugin({
+      collections: ['posts'],
+      uploadsCollection: 'media',
+    }),
     s3Storage({
       collections: { media: true },
       bucket: process.env.R2_BUCKET!,

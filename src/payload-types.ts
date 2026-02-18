@@ -68,6 +68,7 @@ export interface Config {
   blocks: {};
   collections: {
     posts: Post;
+    categories: Category;
     games: Game;
     players: Player;
     rosters: Roster;
@@ -87,6 +88,7 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     posts: PostsSelect<false> | PostsSelect<true>;
+    categories: CategoriesSelect<false> | CategoriesSelect<true>;
     games: GamesSelect<false> | GamesSelect<true>;
     players: PlayersSelect<false> | PlayersSelect<true>;
     rosters: RostersSelect<false> | RostersSelect<true>;
@@ -141,7 +143,6 @@ export interface UserAuthOperations {
 export interface Post {
   id: number;
   title: string;
-  slug: string;
   heroImage?: (number | null) | Media;
   content: {
     root: {
@@ -158,10 +159,21 @@ export interface Post {
     };
     [k: string]: unknown;
   };
-  publishedAt?: string | null;
-  photoAttribution?: string | null;
   season?: (number | null) | Year;
   author?: (number | null) | User;
+  photoAttribution?: string | null;
+  categories?: (number | Category)[] | null;
+  relatedPosts?: (number | Post)[] | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
+  slug: string;
+  publishedAt?: string | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -217,6 +229,17 @@ export interface User {
     | null;
   password?: string | null;
   collection: 'users';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: number;
+  title: string;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -455,6 +478,10 @@ export interface PayloadLockedDocument {
         value: number | Post;
       } | null)
     | ({
+        relationTo: 'categories';
+        value: number | Category;
+      } | null)
+    | ({
         relationTo: 'games';
         value: number | Game;
       } | null)
@@ -546,16 +573,35 @@ export interface PayloadMigration {
  */
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
-  slug?: T;
   heroImage?: T;
   content?: T;
-  publishedAt?: T;
-  photoAttribution?: T;
   season?: T;
   author?: T;
+  photoAttribution?: T;
+  categories?: T;
+  relatedPosts?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  slug?: T;
+  publishedAt?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories_select".
+ */
+export interface CategoriesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

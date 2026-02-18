@@ -8,12 +8,18 @@ import {
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
 
+import {
+  MetaDescriptionField,
+  MetaImageField,
+  MetaTitleField,
+  OverviewField,
+  PreviewField,
+} from '@payloadcms/plugin-seo/fields'
+
 export const Posts: CollectionConfig = {
   slug: 'posts',
   access: {
-    // Allow anyone to read published posts
     read: () => true,
-    // Require authentication for create, update, delete
     create: ({ req: { user } }) => !!user,
     update: ({ req: { user } }) => !!user,
     delete: ({ req: { user } }) => !!user,
@@ -27,6 +33,115 @@ export const Posts: CollectionConfig = {
       name: 'title',
       type: 'text',
       required: true,
+    },
+    {
+      type: 'tabs',
+      tabs: [
+        {
+          label: 'Content',
+          fields: [
+            {
+              name: 'heroImage',
+              type: 'upload',
+              relationTo: 'media',
+            },
+            {
+              name: 'content',
+              type: 'richText',
+              label: false,
+              editor: lexicalEditor({
+                features: ({ rootFeatures }) => {
+                  return [
+                    ...rootFeatures,
+                    HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
+                    FixedToolbarFeature(),
+                    InlineToolbarFeature(),
+                    HorizontalRuleFeature(),
+                  ]
+                },
+              }),
+              required: true,
+            },
+          ],
+        },
+        {
+          label: 'Meta',
+          fields: [
+            {
+              name: 'season',
+              type: 'relationship',
+              relationTo: 'years',
+              hasMany: false,
+              admin: {
+                position: 'sidebar',
+              },
+            },
+            {
+              name: 'author',
+              type: 'relationship',
+              relationTo: 'users',
+              admin: {
+                position: 'sidebar',
+              },
+            },
+            {
+              name: 'photoAttribution',
+              type: 'text',
+              admin: {
+                position: 'sidebar',
+              },
+            },
+            {
+              name: 'categories',
+              type: 'relationship',
+              relationTo: 'categories',
+              hasMany: true,
+              admin: {
+                position: 'sidebar',
+              },
+            },
+            {
+              name: 'relatedPosts',
+              type: 'relationship',
+              relationTo: 'posts',
+              hasMany: true,
+              admin: {
+                position: 'sidebar',
+              },
+              filterOptions: ({ id }) => {
+                return {
+                  id: {
+                    not_in: [id],
+                  },
+                }
+              },
+            },
+          ],
+        },
+        {
+          name: 'meta',
+          label: 'SEO',
+          fields: [
+            OverviewField({
+              titlePath: 'meta.title',
+              descriptionPath: 'meta.description',
+              imagePath: 'meta.image',
+            }),
+            MetaTitleField({
+              hasGenerateFn: false,
+            }),
+            MetaImageField({
+              relationTo: 'media',
+            }),
+            MetaDescriptionField({}),
+            PreviewField({
+              hasGenerateFn: false,
+              titlePath: 'meta.title',
+              descriptionPath: 'meta.description',
+            }),
+          ],
+        },
+      ],
     },
     {
       name: 'slug',
@@ -53,27 +168,6 @@ export const Posts: CollectionConfig = {
       },
     },
     {
-      name: 'heroImage',
-      type: 'upload',
-      relationTo: 'media',
-    },
-    {
-      name: 'content',
-      type: 'richText',
-      editor: lexicalEditor({
-        features: ({ rootFeatures }) => {
-          return [
-            ...rootFeatures,
-            HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-            FixedToolbarFeature(),
-            InlineToolbarFeature(),
-            HorizontalRuleFeature(),
-          ]
-        },
-      }),
-      required: true,
-    },
-    {
       name: 'publishedAt',
       type: 'date',
       admin: {
@@ -91,30 +185,6 @@ export const Posts: CollectionConfig = {
             return value
           },
         ],
-      },
-    },
-    {
-      name: 'photoAttribution',
-      type: 'text',
-      admin: {
-        position: 'sidebar',
-      },
-    },
-    {
-      name: 'season',
-      type: 'relationship',
-      relationTo: 'years',
-      hasMany: false,
-      admin: {
-        position: 'sidebar',
-      },
-    },
-    {
-      name: 'author',
-      type: 'relationship',
-      relationTo: 'users',
-      admin: {
-        position: 'sidebar',
       },
     },
   ],
