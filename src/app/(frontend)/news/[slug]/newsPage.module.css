@@ -23,6 +23,7 @@
 .heroImage{
 position: relative;
 height:29rem;
+background: #dbe6f5;
 
 :has(& > *){
 		container-type: inline-size;	

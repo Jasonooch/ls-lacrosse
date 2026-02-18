@@ -4,6 +4,7 @@
 	z-index: var(--z-base);
 	overflow:hidden;
 	position:relative;
+	background: #dbe6f5;
 	align-items:flex-start;
 	padding-top:1rem;
 	padding-left:1rem;

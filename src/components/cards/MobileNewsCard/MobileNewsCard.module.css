@@ -29,6 +29,7 @@
   overflow: hidden;
   border-radius: 0.625rem;
   flex-shrink: 0;
+  background: #dbe6f5;
 }
 
 .image {
