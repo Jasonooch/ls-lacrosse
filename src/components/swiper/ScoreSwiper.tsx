@@ -13,9 +13,10 @@ import Link from 'next/link';
 
 interface ScoreSwiperProps {
   games: Game[];
+  hideCalendarLink?: boolean;
 }
 
-export default function ScoreSwiper({ games }: ScoreSwiperProps) {
+export default function ScoreSwiper({ games, hideCalendarLink = false }: ScoreSwiperProps) {
   const prevButtonRef = useRef<HTMLButtonElement>(null);
   const nextButtonRef = useRef<HTMLButtonElement>(null);
   const swiperRef = useRef<SwiperType | null>(null);
@@ -102,11 +103,13 @@ export default function ScoreSwiper({ games }: ScoreSwiperProps) {
         </button>
       </div>
       
-      <Link href="/varsity/schedule" className={styles.calendarLink}>
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-          <path d="M14 2h-1V1h-1v1H4V1H3v1H2c-.55 0-1 .45-1 1v11c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zM2 14V6h12v8H2zm12-10H2V3h2v1h1V3h8v1h1V3h2v1z"/>
-        </svg>
-      </Link>
+      {!hideCalendarLink && (
+        <Link href="/varsity/schedule" className={styles.calendarLink}>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M14 2h-1V1h-1v1H4V1H3v1H2c-.55 0-1 .45-1 1v11c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zM2 14V6h12v8H2zm12-10H2V3h2v1h1V3h8v1h1V3h2v1z"/>
+          </svg>
+        </Link>
+      )}
     </div>
   );
 }

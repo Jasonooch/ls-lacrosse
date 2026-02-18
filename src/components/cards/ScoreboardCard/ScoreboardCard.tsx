@@ -36,7 +36,7 @@ export default function ScoreboardCard({
   const opponentScore = game.opponentFinal ?? 0;
 
   return (
-    <Card className={styles.card}>
+    <Card className={`${styles.card} gap-2 py-0`}>
       
       {/* Top Section - Date Info */}
       <div className={styles.dateInfo}>
