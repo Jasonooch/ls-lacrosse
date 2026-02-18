@@ -41,9 +41,11 @@ const Header = () => {
                                 
                                 // Otherwise render standard link
                                 return (
-                                    <NavLink key={item.title} href={item.href || '#'}>
-                                        {item.title}
-                                    </NavLink>
+                                    <div key={item.title} className="py-[10px]">
+                                        <NavLink href={item.href || '#'}>
+                                            {item.title}
+                                        </NavLink>
+                                    </div>
                                 );
                             })}
                         </div>
