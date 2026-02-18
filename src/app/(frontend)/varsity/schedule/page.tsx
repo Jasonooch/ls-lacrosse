@@ -3,10 +3,11 @@ import ScheduleGameCard from '@/components/cards/ScheduleGameCard/ScheduleGameCa
 import SeasonSelector from '@/components/ui/season-selector';
 import { getSeasonGames } from '@/lib/api/games/games';
 import { Button } from '@/components/ui/button';
-import { CirclePlus } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 import { getPayload } from 'payload';
 import config from '@payload-config';
 import { getEasternYear } from '@/lib/date-time';
+import Link from 'next/link';
 type SeasonOption = {
   id: number
   year: string
@@ -81,14 +82,11 @@ export default async function VarsitySchedulePage({ searchParams }: Props) {
             {/* Header with Title and Dropdown */}
             <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
               <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
-                <Button
-                  size="lg"
-                  className='font-bold'
-                ><CirclePlus /> Add to Calendar</Button>
-                <Button
-                  size="lg"
-                  className='font-bold'
-                ><CirclePlus /> Add to iCal</Button>
+                <Link href={`/api/schedule/calendar?seasonId=${selectedSeason?.id}`}>
+                  <Button size="lg" className='font-bold'>
+                    <Calendar /> Add to Calendar
+                  </Button>
+                </Link>
               </div>
               {seasons.length > 0 && (
                 <SeasonSelector 
@@ -105,14 +103,13 @@ export default async function VarsitySchedulePage({ searchParams }: Props) {
                   <ScheduleGameCard
                     key={game.id}
                     opponentName={game.opponent.name}
-                    opponentLogo={
-                      game.opponent.logo?.url
-                    }
+                    opponentLogo={game.opponent.logo?.url}
                     location={game.location}
                     gameDate={game.date}
                     lsFinal={game.lsFinal}
                     opponentFinal={game.opponentFinal}
                     slug={game.slug}
+                    gameType={game.gameType}
                   />
                 ))
               ) : (

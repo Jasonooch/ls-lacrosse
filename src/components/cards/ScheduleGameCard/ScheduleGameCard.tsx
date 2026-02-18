@@ -15,6 +15,7 @@ interface ScheduleGameCardProps {
   lsFinal?: number;
   opponentFinal?: number;
   slug: string;
+  gameType?: string;
 }
 
 const ScheduleGameCard = ({
@@ -25,6 +26,7 @@ const ScheduleGameCard = ({
   lsFinal,
   opponentFinal,
   slug,
+  gameType,
 }: ScheduleGameCardProps) => {
   // 1. Has the game been played?
   const hasScore = lsFinal !== undefined && opponentFinal !== undefined && lsFinal !== null && opponentFinal !== null;
@@ -50,8 +52,22 @@ const ScheduleGameCard = ({
     hour12: true,
   });
 
+  const gameTypeClass =
+    gameType === 'playoffs' ? styles.playoff :
+    gameType === 'scrimmage' ? styles.scrimmage :
+    ''
+
+  const badgeConfig: Record<string, { label: string; cls: string }> = {
+    playoffs: { label: 'Playoffs', cls: styles.badgePlayoffs },
+    scrimmage: { label: 'Scrimmage', cls: styles.badgeScrimmage },
+  }
+  const badge = gameType ? badgeConfig[gameType] : null
+
   return (
-     <Card className={styles.main}>
+     <Card className={`${styles.main} ${gameTypeClass}`}>
+      {badge && (
+        <span className={`${styles.gameTypeBadge} ${badge.cls}`}>{badge.label}</span>
+      )}
       <div className={styles.logoSection}>
         <div className={styles.logoWrapper}>
           <Image 

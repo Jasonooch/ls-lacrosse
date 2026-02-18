@@ -8,6 +8,7 @@ import PageTitle from '@/components/ui/PageTitle/PageTitle'
 import { Button } from '@/components/ui/button'
 import { getGameBySlug } from '@/lib/api/games/games'
 import { formatInEasternTime } from '@/lib/date-time'
+import { buildGoogleCalUrl } from '@/lib/calendar'
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -111,6 +112,16 @@ export default async function GameDetailsPage({ params }: Props) {
                   </Button>
                 </Link>
               )}
+              <Link href={buildGoogleCalUrl(game)} target="_blank" rel="noopener noreferrer">
+                <Button size="lg" variant="outline" className="font-bold">
+                  Add to Google Calendar
+                </Button>
+              </Link>
+              <Link href={`/api/games/${game.id}/calendar`}>
+                <Button size="lg" variant="outline" className="font-bold">
+                  Add to iCal
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

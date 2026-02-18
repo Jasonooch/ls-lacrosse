@@ -22,6 +22,37 @@
 	background:var(--primary);
 }
 
+.playoff:before {
+  background: var(--accent);
+}
+
+.scrimmage:before {
+  background: var(--color-text-muted);
+}
+
+.gameTypeBadge {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  padding: 1px 6px;
+  line-height: 1.5;
+  border: 1px solid currentColor;
+}
+
+.gameTypeBadge.badgePlayoffs {
+  color: var(--accent);
+}
+
+.gameTypeBadge.badgeScrimmage {
+  color: var(--color-text-muted);
+}
+
+
 .logoSection{
 width:50%;
 	align-self:auto;
