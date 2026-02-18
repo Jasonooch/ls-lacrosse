@@ -11,28 +11,14 @@ import { getNextGame } from '@/lib/api/games/games';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import styles from './page.module.css';
-import { unstable_cache } from 'next/cache';
-
-const getCachedPosts = unstable_cache(
-  () => getPosts({
-    limit: 12,
-    select: { id: true, title: true, slug: true, heroImage: true, publishedAt: true },
-  }),
-  ['home-posts'],
-  { revalidate: 60 }
-);
-
-const getCachedNextGame = unstable_cache(
-  () => getNextGame(),
-  ['next-game'],
-  { revalidate: 60 }
-);
-
 // Main page component
 export default async function Home() {
   const [postsData, nextGame] = await Promise.all([
-    getCachedPosts(),
-    getCachedNextGame(),
+    getPosts({
+      limit: 12,
+      select: { id: true, title: true, slug: true, heroImage: true, publishedAt: true },
+    }),
+    getNextGame(),
   ]);
 
   const latestPosts = postsData.docs.slice(0, 4);   // For grid

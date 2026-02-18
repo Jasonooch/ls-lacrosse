@@ -1,5 +1,3 @@
-export const revalidate = 3600;
-
 import PageTitle from '@/components/ui/PageTitle/PageTitle';
 import Table from '@/components/tables/Table/Table';
 import SeasonSelector from '@/components/ui/season-selector';
@@ -7,20 +5,6 @@ import {
   getCoachingStaffYears,
   getCoachingStaffByYear,
 } from '@/lib/api/coaching-staff/coaching-staff';
-import { unstable_cache } from 'next/cache';
-
-const getCachedCoachingStaffYears = unstable_cache(
-  () => getCoachingStaffYears(),
-  ['coaching-staff-years'],
-  { revalidate: 3600 }
-);
-
-const getCachedCoachingStaffByYear = unstable_cache(
-  (year: string) => getCoachingStaffByYear(year),
-  ['coaching-staff-by-year'],
-  { revalidate: 3600 }
-);
-
 const columns = [
   { accessor: 'name', header: 'NAME' },
   { accessor: 'role', header: 'ROLE' },
@@ -33,12 +17,12 @@ type Props = {
 export default async function CoachesPage({ searchParams }: Props) {
   const [params, years] = await Promise.all([
     searchParams,
-    getCachedCoachingStaffYears(),
+    getCoachingStaffYears(),
   ]);
 
   const selectedYear = years.find((y) => y === params.year) ?? years[0];
 
-  const staff = selectedYear ? await getCachedCoachingStaffByYear(selectedYear) : null;
+  const staff = selectedYear ? await getCoachingStaffByYear(selectedYear) : null;
 
   // SeasonSelector expects { id: number, year: string }[]
   const seasons = years.map((y, i) => ({ id: i, year: y }));

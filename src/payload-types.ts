@@ -169,11 +169,11 @@ export interface Post {
     image?: (number | null) | Media;
     description?: string | null;
   };
-  publishedAt?: string | null;
-  author?: (number | null) | User;
-  season?: (number | null) | Year;
-  photoAttribution?: string | null;
   slug: string;
+  publishedAt?: string | null;
+  photoAttribution?: string | null;
+  season?: (number | null) | Year;
+  author?: (number | null) | User;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -208,6 +208,16 @@ export interface Category {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "years".
+ */
+export interface Year {
+  id: number;
+  year: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -230,16 +240,6 @@ export interface User {
     | null;
   password?: string | null;
   collection: 'users';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "years".
- */
-export interface Year {
-  id: number;
-  year: string;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -584,11 +584,11 @@ export interface PostsSelect<T extends boolean = true> {
         image?: T;
         description?: T;
       };
-  publishedAt?: T;
-  author?: T;
-  season?: T;
-  photoAttribution?: T;
   slug?: T;
+  publishedAt?: T;
+  photoAttribution?: T;
+  season?: T;
+  author?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
