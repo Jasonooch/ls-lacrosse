@@ -93,7 +93,7 @@ export async function getGames({
 }
 
 /**
- * Convenience function: Get the next upcoming game
+ * Cached: Get the next upcoming game
  */
 export async function getNextGame({
   seasonId,
@@ -102,19 +102,24 @@ export async function getNextGame({
   seasonId?: string;
   gameType?: string;
 } = {}): Promise<Game | null> {
-  const result = await getGames({
-    futureOnly: true,
-    gameType,
-    seasonId,
-    limit: 1,
-    sortDirection: 'asc',
-  })
-
-  return result.docs[0] || null
+  return unstable_cache(
+    async () => {
+      const result = await getGames({
+        futureOnly: true,
+        gameType,
+        seasonId,
+        limit: 1,
+        sortDirection: 'asc',
+      })
+      return result.docs[0] || null
+    },
+    ['next-game', seasonId ?? 'none', gameType ?? 'none'],
+    { revalidate: 300, tags: ['games'] },
+  )()
 }
 
 /**
- * Convenience function: Get all games for a season
+ * Cached: Get all games for a season
  */
 export async function getSeasonGames({
   seasonId,
@@ -123,27 +128,37 @@ export async function getSeasonGames({
   seasonId?: string;
   gameType?: string;
 }): Promise<Game[]> {
-  const result = await getGames({
-    seasonId,
-    gameType,
-    limit: 100,
-    sortDirection: 'asc',
-  })
-
-  return result.docs
+  return unstable_cache(
+    async () => {
+      const result = await getGames({
+        seasonId,
+        gameType,
+        limit: 100,
+        sortDirection: 'asc',
+      })
+      return result.docs
+    },
+    ['season-games', seasonId ?? 'none', gameType ?? 'none'],
+    { revalidate: 300, tags: ['games'] },
+  )()
 }
 
 /**
- * Convenience function: Get a single game by slug
+ * Cached: Get a single game by slug
  */
 export async function getGameBySlug(slug: string): Promise<Game | null> {
-  const result = await getGames({
-    slug,
-    limit: 1,
-    publishedOnly: true,
-  })
-
-  return result.docs[0] || null
+  return unstable_cache(
+    async () => {
+      const result = await getGames({
+        slug,
+        limit: 1,
+        publishedOnly: true,
+      })
+      return result.docs[0] || null
+    },
+    ['game-by-slug', slug],
+    { revalidate: 3600, tags: ['games'] },
+  )()
 }
 
 /**
