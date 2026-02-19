@@ -2,6 +2,8 @@
 
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import { unstable_cache } from 'next/cache'
+import { getEasternYear } from '@/lib/date-time'
 
 // Shared Game type
 export type Game = {
@@ -143,3 +145,36 @@ export async function getGameBySlug(slug: string): Promise<Game | null> {
 
   return result.docs[0] || null
 }
+
+/**
+ * Cached: Get games for the most recent season (used in layout score ticker)
+ */
+export const getMostRecentSeasonGames = unstable_cache(
+  async () => {
+    const payload = await getPayload({ config })
+    const result = await payload.find({
+      collection: 'games',
+      depth: 1,
+      limit: 100,
+      where: { _status: { equals: 'published' } },
+      select: { season: true, date: true },
+    })
+
+    let latestYear = ''
+    let latestSeasonId: number | null = null
+    for (const game of result.docs) {
+      const season = game.season as unknown as { id: number; year?: string } | number
+      const seasonId = typeof season === 'object' && season !== null ? season.id : (season as number)
+      const year = typeof season === 'object' && season?.year ? season.year : getEasternYear(game.date as string)
+      if (year > latestYear) {
+        latestYear = year
+        latestSeasonId = seasonId
+      }
+    }
+
+    if (!latestSeasonId) return []
+    return getSeasonGames({ seasonId: String(latestSeasonId) })
+  },
+  ['games-layout'],
+  { revalidate: 300, tags: ['games'] },
+)

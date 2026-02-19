@@ -1,7 +1,14 @@
 import type { CollectionConfig } from 'payload'
+import { revalidateTag } from 'next/cache'
+
+const revalidateGames = () => { revalidateTag('games') }
 
 export const Games: CollectionConfig = {
   slug: 'games',
+  hooks: {
+    afterChange: [revalidateGames],
+    afterDelete: [revalidateGames],
+  },
   access: {
     read: () => true,
     create: ({ req: { user } }) => !!user,
