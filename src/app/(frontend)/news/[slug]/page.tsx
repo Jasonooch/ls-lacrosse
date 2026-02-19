@@ -15,6 +15,17 @@ import { getPosts } from '@/lib/api/posts';
 import { getNextGame } from '@/lib/api/games/games'; // ← Only need this one
 import { formatInEasternTime } from '@/lib/date-time';
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const data = await getPosts({ limit: 1, slug });
+  const post = data.docs[0];
+  return { title: post?.title ?? 'News' };
+}
+
 export default async function SinglePostPage({
   params,
 }: {

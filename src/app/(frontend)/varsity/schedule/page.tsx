@@ -1,47 +1,18 @@
+export const revalidate = 300;
+
 import PageTitle from '@/components/ui/PageTitle/PageTitle';
 import ScheduleGameCard from '@/components/cards/ScheduleGameCard/ScheduleGameCard';
 import SeasonSelector from '@/components/ui/season-selector';
-import { getSeasonGames } from '@/lib/api/games/games';
+import { getSeasonGames, getSeasons } from '@/lib/api/games/games';
 import { Button } from '@/components/ui/button';
 import { Calendar } from 'lucide-react';
-import { getPayload } from 'payload';
-import config from '@payload-config';
-import { getEasternYear } from '@/lib/date-time';
 import Link from 'next/link';
-type SeasonOption = {
-  id: number
-  year: string
-}
 
 type Props = {
   searchParams: Promise<{
     year?: string;
   }>;
 };
-
-async function getSeasons() {
-  const payload = await getPayload({ config });
-
-  const result = await payload.find({
-    collection: 'games',
-    depth: 1,
-    limit: 100,
-    where: { _status: { equals: 'published' } },
-    select: { season: true, date: true },
-  });
-
-  const seasonMap = new Map<number, SeasonOption>();
-  for (const game of result.docs) {
-    const season = game.season as unknown as { id: number; year?: string } | number;
-    const seasonId = typeof season === 'object' && season !== null ? season.id : (season as number);
-    if (seasonId && !seasonMap.has(seasonId)) {
-      const year = (typeof season === 'object' && season?.year) ? season.year : getEasternYear(game.date as string);
-      seasonMap.set(seasonId, { id: seasonId, year });
-    }
-  }
-
-  return Array.from(seasonMap.values()).sort((a, b) => b.year.localeCompare(a.year));
-}
 
 export async function generateMetadata({ searchParams }: Props) {
   // Parallel fetch - params and seasons are independent

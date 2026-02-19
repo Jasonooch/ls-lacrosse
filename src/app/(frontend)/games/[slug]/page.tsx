@@ -14,6 +14,14 @@ type Props = {
   params: Promise<{ slug: string }>
 }
 
+export async function generateMetadata({ params }: Props) {
+  const { slug } = await params;
+  const game = await getGameBySlug(slug);
+  if (!game) return { title: 'Game Details' };
+  const prefix = game.location === 'LSRHS' ? 'vs' : 'at';
+  return { title: `${prefix} ${game.opponent.name}` };
+}
+
 export default async function GameDetailsPage({ params }: Props) {
   const { slug } = await params
   const game = await getGameBySlug(slug)

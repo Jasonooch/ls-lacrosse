@@ -1,5 +1,6 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import { unstable_cache } from 'next/cache'
 import type { Year } from '@/types/cms'
 import type { SerializedEditorState } from 'lexical'
 
@@ -38,34 +39,43 @@ export async function getPosts({
   hasNextPage?: boolean;
   hasPrevPage?: boolean;
 }> {
-  const payload = await getPayload({ config })
+  const selectKey = select ? Object.keys(select).sort().join(',') : 'all'
+  const cacheKey = ['posts', String(limit), String(page), slug ?? '', excludeSlug ?? '', selectKey]
 
-  const conditions: Record<string, unknown>[] = []
-  if (slug) conditions.push({ slug: { equals: slug } })
-  if (excludeSlug) conditions.push({ slug: { not_equals: excludeSlug } })
+  return unstable_cache(
+    async () => {
+      const payload = await getPayload({ config })
 
-  const where =
-    conditions.length > 1
-      ? { and: conditions }
-      : conditions.length === 1
-        ? conditions[0]
-        : {}
+      const conditions: Record<string, unknown>[] = []
+      if (slug) conditions.push({ slug: { equals: slug } })
+      if (excludeSlug) conditions.push({ slug: { not_equals: excludeSlug } })
 
-  const result = await payload.find({
-    collection: 'posts',
-    depth: 1,
-    sort: '-publishedAt',
-    limit,
-    page,
-    where,
-    ...(select && { select }),
-  })
+      const where =
+        conditions.length > 1
+          ? { and: conditions }
+          : conditions.length === 1
+            ? conditions[0]
+            : {}
 
-  return {
-    docs: result.docs as unknown as Post[],
-    totalDocs: result.totalDocs,
-    totalPages: result.totalPages,
-    hasNextPage: result.hasNextPage,
-    hasPrevPage: result.hasPrevPage,
-  }
+      const result = await payload.find({
+        collection: 'posts',
+        depth: 1,
+        sort: '-publishedAt',
+        limit,
+        page,
+        where,
+        ...(select && { select }),
+      })
+
+      return {
+        docs: result.docs as unknown as Post[],
+        totalDocs: result.totalDocs,
+        totalPages: result.totalPages,
+        hasNextPage: result.hasNextPage,
+        hasPrevPage: result.hasPrevPage,
+      }
+    },
+    cacheKey,
+    { revalidate: 60, tags: ['posts'] },
+  )()
 }

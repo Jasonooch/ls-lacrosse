@@ -2,6 +2,15 @@
 
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import { unstable_cache } from 'next/cache'
+
+// Season/graduation year ID → year string mapping
+const SEASON_YEAR_MAP: Record<number, string> = {
+  1: '2025',
+  2: '2026',
+  3: '2027',
+  4: '2028',
+}
 
 // Raw API response types
 interface ApiGraduationYear {
@@ -81,20 +90,12 @@ export async function getRosters({
 
   const rawDocs = result.docs as unknown as ApiRoster[]
 
-  // Season ID to year mapping
-  const seasonYearMap: Record<number, string> = {
-    1: '2025',
-    2: '2026',
-    3: '2027',
-    4: '2028',
-  }
-
   // Flatten the nested player relation
   const flattenedDocs = rawDocs.map((doc: ApiRoster) => {
     const rawSeason = doc.season
     let seasonYear = '-'
     if (typeof rawSeason === 'number') {
-      seasonYear = seasonYearMap[rawSeason] || String(rawSeason)
+      seasonYear = SEASON_YEAR_MAP[rawSeason] || String(rawSeason)
     } else if (typeof rawSeason === 'string') {
       seasonYear = rawSeason
     } else if (rawSeason && typeof rawSeason === 'object' && 'year' in rawSeason) {
@@ -107,13 +108,6 @@ export async function getRosters({
       players: (doc.players || []).map((p: ApiPlayer | NestedPlayer) => {
         const player = 'player' in p ? p.player : p
 
-        const graduationYearMap: Record<number, string> = {
-          1: '2025',
-          2: '2026',
-          3: '2027',
-          4: '2028',
-        }
-
         let graduationYear = '-'
         if (player.graduationYear) {
           if (typeof player.graduationYear === 'object' && 'year' in player.graduationYear) {
@@ -121,7 +115,7 @@ export async function getRosters({
           } else if (typeof player.graduationYear === 'string') {
             graduationYear = player.graduationYear
           } else if (typeof player.graduationYear === 'number') {
-            graduationYear = graduationYearMap[player.graduationYear] || String(player.graduationYear)
+            graduationYear = SEASON_YEAR_MAP[player.graduationYear] || String(player.graduationYear)
           }
         }
 
@@ -146,25 +140,27 @@ export async function getRosters({
 }
 
 /**
- * Get roster for a specific season
+ * Cached: Get roster for a specific season
  */
 export async function getRosterBySeason(season: string): Promise<Roster | null> {
-  const result = await getRosters({ season, limit: 1 })
-  return result.docs[0] || null
+  return unstable_cache(
+    async () => {
+      const result = await getRosters({ season, limit: 1 })
+      return result.docs[0] || null
+    },
+    ['roster-by-season', season],
+    { revalidate: 300, tags: ['rosters'] },
+  )()
 }
 
 /**
- * Get the latest roster (most recently created/updated)
+ * Cached: Get the latest roster (most recently created/updated)
  */
-export async function getLatestRoster(): Promise<Roster | null> {
-  const result = await getRosters({ limit: 1, sort: '-createdAt' })
-  return result.docs[0] || null
-}
-
-/**
- * Get all available seasons (for dropdown)
- */
-export async function getRosterSeasons(): Promise<string[]> {
-  const result = await getRosters({ limit: 50, sort: '-season' })
-  return result.docs.map((roster) => roster.season).filter(Boolean)
-}
+export const getLatestRoster = unstable_cache(
+  async (): Promise<Roster | null> => {
+    const result = await getRosters({ limit: 1, sort: '-createdAt' })
+    return result.docs[0] || null
+  },
+  ['latest-roster'],
+  { revalidate: 300, tags: ['rosters'] },
+)

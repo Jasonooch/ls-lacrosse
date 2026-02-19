@@ -4,15 +4,17 @@ import { useState } from 'react'
 import Image from 'next/image'
 import styles from './sticks.module.css'
 
+type FormState = {
+  status: 'idle' | 'submitting' | 'success' | 'error'
+  error: string | null
+}
+
 export default function WematinSticksForm() {
-  const [success, setSuccess] = useState(false)
-  const [submitting, setSubmitting] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [formState, setFormState] = useState<FormState>({ status: 'idle', error: null })
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    setSubmitting(true)
-    setError(null)
+    setFormState({ status: 'submitting', error: null })
 
     const form = e.currentTarget
     const data = Object.fromEntries(new FormData(form))
@@ -31,17 +33,15 @@ export default function WematinSticksForm() {
       })
 
       if (!res.ok) throw new Error('Submission failed')
-      setSuccess(true)
+      setFormState({ status: 'success', error: null })
     } catch {
-      setError('Something went wrong. Please try again.')
-    } finally {
-      setSubmitting(false)
+      setFormState({ status: 'error', error: 'Something went wrong. Please try again.' })
     }
   }
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
-      {success ? (
+      {formState.status === 'success' ? (
         <div className={styles.formSuccess} style={{ display: 'flex' }}>
           <Image
             src="https://global.divhunt.com/b132c3ca1269550cac0d6f5ebe06cdf5_2464.svg"
@@ -122,11 +122,11 @@ export default function WematinSticksForm() {
             </div>
           </div>
 
-          {error && <p style={{ color: 'var(--color-error)', fontSize: '14px' }}>{error}</p>}
+          {formState.error && <p style={{ color: 'var(--color-error)', fontSize: '14px' }}>{formState.error}</p>}
 
           <div className={styles.submitWrapper}>
-            <button type="submit" disabled={submitting} className={styles.submitButton}>
-              {submitting ? 'Submitting...' : 'Submit'}
+            <button type="submit" disabled={formState.status === 'submitting'} className={styles.submitButton}>
+              {formState.status === 'submitting' ? 'Submitting...' : 'Submit'}
             </button>
           </div>
         </div>

@@ -1,9 +1,16 @@
 // app/roster/page.tsx
+export const revalidate = 300;
 
 import PageTitle from '@/components/ui/PageTitle/PageTitle';
 import Table from '@/components/tables/Table/Table';
 import { getLatestRoster } from '@/lib/api/rosters';
 import MobileRosterCard from '@/components/cards/MobileRosterCard/MobileRosterCard';
+
+export async function generateMetadata() {
+  const latestRoster = await getLatestRoster();
+  const season = latestRoster?.season ?? '';
+  return { title: season ? `${season} Varsity Roster` : 'Varsity Roster' };
+}
 
 // Columns — match the transformed data keys
 const columns = [
@@ -31,6 +38,7 @@ export default async function Roster() {
 
   // Transform player data to match table keys
   const players = latestRoster.players.map((player) => ({
+    id: player.id,
     jerseyNumber: player.jerseyNumber ?? '-',
     fullName: player.fullName,
     position: player.position ?? '-',
@@ -54,9 +62,9 @@ export default async function Roster() {
 
             {/* Mobile Cards */}
             <div className="md:hidden flex flex-col gap-4">
-              {players.map((player, index) => (
+              {players.map((player) => (
                 <MobileRosterCard
-                  key={index}
+                  key={player.id}
                   jerseyNumber={player.jerseyNumber}
                   fullName={player.fullName}
                   position={player.position}

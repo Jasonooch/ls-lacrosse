@@ -25,6 +25,8 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 
+export const metadata = { title: 'News' };
+
 const PAGE_SIZE = 10;
 
 export default async function Page({
@@ -86,23 +88,17 @@ export default async function Page({
           <div className="space-y-4">
             <Table>
               <TableHeader
-                className="overflow-hidden"
+                className="overflow-hidden w-full grid py-5 rounded-t-[0.625rem]"
                 style={{
-                  width: '100%',
-                  display: 'grid',
                   gridTemplateColumns: '1fr 2fr 1fr',
                   background: 'rgb(9, 31, 63)',
-                  paddingTop: '20px',
-                  paddingBottom: '20px',
-                  borderRadius: '0.625rem 0.625rem 0 0',
                 }}
               >
                 <TableRow className="border-0" style={{ display: 'contents' }}>
                   {['Date', 'Title', 'Season'].map((header) => (
                     <TableHead
                       key={header}
-                      className="font-bold text-base uppercase !px-8 !h-auto"
-                      style={{ color: 'rgb(255, 255, 255)' }}
+                      className="font-bold text-base uppercase !px-8 !h-auto text-white"
                     >
                       {header}
                     </TableHead>
@@ -113,8 +109,8 @@ export default async function Page({
                 {rows.map((row, index) => (
                   <TableRow
                     key={index}
-                    className="border-x border-gray-200 even:bg-[#f3f3f3] hover:bg-[#e9e9e9] transition-colors"
-                    style={{ display: 'grid', gridTemplateColumns: '1fr 2fr 1fr' }}
+                    className="border-x border-gray-200 even:bg-[#f3f3f3] hover:bg-[#e9e9e9] transition-colors grid"
+                    style={{ gridTemplateColumns: '1fr 2fr 1fr' }}
                   >
                     <TableCell className="font-medium text-base px-8 py-4">{row.date}</TableCell>
                     <TableCell className="font-medium text-base px-8 py-4">{row.title}</TableCell>

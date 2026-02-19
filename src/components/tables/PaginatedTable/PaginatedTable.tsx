@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, type ReactNode } from 'react';
+import { useState, useMemo, useCallback, type ReactNode } from 'react';
 import {
   Table,
   TableBody,
@@ -41,56 +41,51 @@ export function PaginatedTable({
 }: PaginatedTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
 
-  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const totalPages = useMemo(() => Math.ceil(data.length / itemsPerPage), [data.length, itemsPerPage]);
 
-  // Calculate the start and end indices for the current page
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
+  const { currentData, startIndex, endIndex } = useMemo(() => {
+    const start = (currentPage - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    return { currentData: data.slice(start, end), startIndex: start, endIndex: end };
+  }, [data, currentPage, itemsPerPage]);
 
-  // Get the current page's data
-  const currentData = data.slice(startIndex, endIndex);
+  const pageNumbers = useMemo(
+    () => Array.from({ length: totalPages }, (_, i) => i + 1),
+    [totalPages],
+  );
 
-  const handlePageChange = (page: number) => {
+  const handlePageChange = useCallback((page: number) => {
     setCurrentPage(page);
-  };
+  }, []);
 
-  const handlePrevious = () => {
+  const handlePrevious = useCallback(() => {
     setCurrentPage(prev => Math.max(1, prev - 1));
-  };
+  }, []);
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     setCurrentPage(prev => Math.min(totalPages, prev + 1));
-  };
+  }, [totalPages]);
+
+  const headerStyle = useMemo(() => ({
+    gridTemplateColumns: gridTemplate || `repeat(${columns.length}, 1fr)`,
+    background: 'rgb(9, 31, 63)',
+  }), [gridTemplate, columns.length]);
+
+  const rowStyle = useMemo(() => gridTemplate ? { gridTemplateColumns: gridTemplate } : undefined, [gridTemplate]);
 
   return (
     <div className="space-y-4">
       {/* Table */}
       <Table className={className}>
         <TableHeader
-          className="overflow-hidden"
-          style={{
-            width: '100%',
-            display: 'grid',
-            gridTemplateColumns: gridTemplate || `repeat(${columns.length}, 1fr)`,
-            background: 'rgb(9, 31, 63)',
-            paddingTop: '20px',
-            paddingBottom: '20px',
-            borderRadius: '0.625rem 0.625rem 0 0',
-          }}
+          className="overflow-hidden w-full grid py-5 rounded-t-[0.625rem]"
+          style={headerStyle}
         >
-          <TableRow
-            className="border-0"
-            style={{
-              display: 'contents',
-            }}
-          >
+          <TableRow className="border-0" style={{ display: 'contents' }}>
             {columns.map((col) => (
               <TableHead
                 key={col.accessor}
-                className={`font-bold text-base uppercase !px-8 !h-auto ${col.className || ''}`}
-                style={{
-                  color: 'rgb(255, 255, 255)',
-                }}
+                className={`font-bold text-base uppercase !px-8 !h-auto text-white ${col.className || ''}`}
               >
                 {col.header}
               </TableHead>
@@ -101,18 +96,15 @@ export function PaginatedTable({
           {currentData.map((row, index) => (
             <TableRow
               key={index}
-              className="border-x border-gray-200 even:bg-[#f3f3f3] hover:bg-[#e9e9e9] transition-colors"
-              style={gridTemplate ? {
-                display: 'grid',
-                gridTemplateColumns: gridTemplate
-              } : undefined}
+              className="border-x border-gray-200 even:bg-[#f3f3f3] hover:bg-[#e9e9e9] transition-colors grid"
+              style={rowStyle}
             >
               {columns.map((col) => (
                 <TableCell
                   key={col.accessor}
                   className={`font-medium text-base px-8 py-4 ${col.className || ''}`}
                 >
-                  {typeof row[col.accessor] === 'object' ? row[col.accessor] : row[col.accessor]}
+                  {row[col.accessor]}
                 </TableCell>
               ))}
             </TableRow>
@@ -134,7 +126,7 @@ export function PaginatedTable({
               </PaginationItem>
 
               {/* Page Numbers */}
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              {pageNumbers.map((page) => (
                 <PaginationItem key={page}>
                   <PaginationLink
                     onClick={() => handlePageChange(page)}

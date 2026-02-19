@@ -1,5 +1,6 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import { unstable_cache } from 'next/cache'
 
 interface ApiCoach {
   id: string | number
@@ -34,51 +35,61 @@ const roleLabels: Record<string, string> = {
   assistant: 'Assistant Coach',
 }
 
-export async function getCoachingStaffYears(): Promise<string[]> {
-  const payload = await getPayload({ config })
+export const getCoachingStaffYears = unstable_cache(
+  async (): Promise<string[]> => {
+    const payload = await getPayload({ config })
 
-  const result = await payload.find({
-    collection: 'coaching-staff',
-    depth: 0,
-    limit: 100,
-    sort: '-year',
-    select: { year: true },
-  })
+    const result = await payload.find({
+      collection: 'coaching-staff',
+      depth: 0,
+      limit: 100,
+      sort: '-year',
+      select: { year: true },
+    })
 
-  const years = (result.docs as unknown as { year: string }[])
-    .map((doc) => doc.year)
-    .filter(Boolean)
+    const years = (result.docs as unknown as { year: string }[])
+      .map((doc) => doc.year)
+      .filter(Boolean)
 
-  return [...new Set(years)].sort((a, b) => b.localeCompare(a))
-}
+    return [...new Set(years)].sort((a, b) => b.localeCompare(a))
+  },
+  ['coaching-staff-years'],
+  { revalidate: 300, tags: ['coaching-staff'] },
+)
 
 export async function getCoachingStaffByYear(year: string): Promise<CoachingStaffDoc | null> {
-  const payload = await getPayload({ config })
+  return unstable_cache(
+    async () => {
+      const payload = await getPayload({ config })
 
-  const result = await payload.find({
-    collection: 'coaching-staff',
-    depth: 2,
-    limit: 1,
-    where: { year: { equals: year } },
-  })
+      const result = await payload.find({
+        collection: 'coaching-staff',
+        depth: 2,
+        limit: 1,
+        where: { year: { equals: year } },
+      })
 
-  const doc = (result.docs[0] as unknown as ApiCoachingStaff) ?? null
-  if (!doc) return null
+      const doc = (result.docs[0] as unknown as ApiCoachingStaff) ?? null
+      if (!doc) return null
 
-  const coaches: CoachRow[] = (doc.coaches || []).map((entry) => {
-    const coach =
-      typeof entry.coach === 'object' && entry.coach !== null
-        ? (entry.coach as ApiCoach)
-        : null
-    return {
-      name: coach?.fullName ?? '—',
-      role: roleLabels[entry.role ?? ''] ?? entry.role ?? '—',
-    }
-  })
+      const coaches: CoachRow[] = (doc.coaches || []).map((entry) => {
+        const coach =
+          typeof entry.coach === 'object' && entry.coach !== null
+            ? (entry.coach as ApiCoach)
+            : null
+        return {
+          name: coach?.fullName ?? '—',
+          role: roleLabels[entry.role ?? ''] ?? entry.role ?? '—',
+        }
+      })
 
-  return {
-    id: doc.id,
-    year: doc.year,
-    coaches,
-  }
+      return {
+        id: doc.id,
+        year: doc.year,
+        coaches,
+      }
+    },
+    ['coaching-staff-by-year', year],
+    { revalidate: 300, tags: ['coaching-staff'] },
+  )()
 }
