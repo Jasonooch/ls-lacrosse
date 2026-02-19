@@ -8,6 +8,8 @@ import { getSeasonGames } from '@/lib/api/games/games'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { getEasternYear } from '@/lib/date-time'
+import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 export const metadata: Metadata = {
   title: 'LS Lacrosse',
@@ -61,6 +63,8 @@ export default async function RootLayout({
         <MobileNav />
         <main>{children}</main>
         <Footer />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )
