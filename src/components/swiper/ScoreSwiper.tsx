@@ -91,21 +91,21 @@ export default function ScoreSwiper({ games, hideCalendarLink = false }: ScoreSw
       </div>
       
       <div className={styles.arrowWrap}>
-        <button ref={prevButtonRef} className={`${styles.navButton} ${styles.prevButton}`}>
-          <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+        <button ref={prevButtonRef} aria-label="Previous slide" className={`${styles.navButton} ${styles.prevButton}`}>
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
             <path d="M9.375 3.75L5.625 7.5L9.375 11.25" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </button>
-        <button ref={nextButtonRef} className={`${styles.navButton} ${styles.nextButton}`}>
-          <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+        <button ref={nextButtonRef} aria-label="Next slide" className={`${styles.navButton} ${styles.nextButton}`}>
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
             <path d="M5.625 3.75L9.375 7.5L5.625 11.25" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </button>
       </div>
       
       {!hideCalendarLink && (
-        <Link href="/varsity/schedule" className={styles.calendarLink}>
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+        <Link href="/varsity/schedule" aria-label="View varsity schedule" className={styles.calendarLink}>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
             <path d="M14 2h-1V1h-1v1H4V1H3v1H2c-.55 0-1 .45-1 1v11c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zM2 14V6h12v8H2zm12-10H2V3h2v1h1V3h8v1h1V3h2v1z"/>
           </svg>
         </Link>
