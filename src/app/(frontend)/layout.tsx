@@ -13,8 +13,8 @@ export const metadata: Metadata = {
   description:
     'Official website for LS Lacrosse - Stay updated with game schedules, team rosters, news, and achievements.',
   icons: {
-    icon: '/images/logo.png',
-    apple: '/images/logo.png',
+    icon: '/images/favicon.png',
+    apple: '/images/favicon.png',
   },
 }
 
