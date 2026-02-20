@@ -1,21 +1,21 @@
 // src/app/cards/MainNewsCard.tsx  (or your path)
 
-import Link from 'next/link';
-import Image from 'next/image';
+import Link from 'next/link'
+import Image from 'next/image'
 import styles from './MainNewsCard.module.css'
-import { formatInEasternTime } from '@/lib/date-time';
+import { formatInEasternTime } from '@/lib/date-time'
 
 interface MainNewsCardProps {
-  title: string;
-  slug: string;
+  title: string
+  slug: string
   heroImage?: {
-    url?: string | null;
-    alt?: string;
-    focalX?: number | null;
-    focalY?: number | null;
-  };
-  publishedAt?: string;
-  isMain?: boolean;
+    url?: string | null
+    alt?: string
+    focalX?: number | null
+    focalY?: number | null
+  }
+  publishedAt?: string
+  isMain?: boolean
 }
 
 export default function MainNewsCard({
@@ -31,17 +31,14 @@ export default function MainNewsCard({
         day: 'numeric',
         year: 'numeric',
       })
-    : null;
+    : null
 
-  const imageUrl = heroImage?.url || null;
+  const imageUrl = heroImage?.url || null
 
-  const imageAlt = heroImage?.alt || title;
+  const imageAlt = heroImage?.alt || title
 
   return (
-    <Link
-      href={`/news/${slug}`}
-      className={styles.card}
-    >
+    <Link href={`/news/${slug}`} className={styles.card}>
       {/* Background Image */}
       {imageUrl ? (
         <Image
@@ -50,14 +47,16 @@ export default function MainNewsCard({
           fill
           className={styles.image}
           priority={isMain}
-          sizes={isMain
-    ? "(max-width: 768px) 100vw, 60vw"
-    : "(max-width: 768px) 100vw, 30vw"
-  }
+          sizes={
+            isMain
+              ? '(max-width: 768px) 100vw, (max-width: 1280px) 70vw, 860px'
+              : '(max-width: 768px) 100vw, (max-width: 1280px) 30vw, 420px'
+          }
           style={{
-            objectPosition: heroImage?.focalX != null && heroImage?.focalY != null
-              ? `${heroImage.focalX}% ${heroImage.focalY}%`
-              : '50% 25%',
+            objectPosition:
+              heroImage?.focalX != null && heroImage?.focalY != null
+                ? `${heroImage.focalX}% ${heroImage.focalY}%`
+                : '50% 25%',
           }}
         />
       ) : (
@@ -69,10 +68,8 @@ export default function MainNewsCard({
       {/* Text Wrapper + Red Bar */}
       <div className={styles.textWrapper}>
         <h3 className={styles.title}>{title}</h3>
-        {formattedDate && (
-          <span className={styles.meta}>{formattedDate}</span>
-        )}
+        {formattedDate && <span className={styles.meta}>{formattedDate}</span>}
       </div>
     </Link>
-  );
+  )
 }
