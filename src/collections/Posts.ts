@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { revalidateTag } from 'next/cache'
 
 import {
   FixedToolbarFeature,
@@ -188,6 +189,18 @@ export const Posts: CollectionConfig = {
       },
     },
   ],
+  hooks: {
+    afterChange: [
+      () => {
+        try { revalidateTag('posts') } catch {}
+      },
+    ],
+    afterDelete: [
+      () => {
+        try { revalidateTag('posts') } catch {}
+      },
+    ],
+  },
   versions: {
     drafts: {
       autosave: {

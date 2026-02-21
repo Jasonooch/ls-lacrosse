@@ -76,6 +76,6 @@ export async function getPosts({
       }
     },
     cacheKey,
-    { revalidate: 60, tags: ['posts'] },
+    { revalidate: 3600, tags: ['posts'] },
   )()
 }
