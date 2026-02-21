@@ -65,13 +65,13 @@ const MobileNavHeader = () => {
           </SheetTrigger>
 
           {/* Full-screen mobile menu matching your mockup */}
-          <SheetContent 
-            side="left" 
-            className="w-full max-w-full p-8 bg-white flex flex-col z-[var(--z-modal)]"
+          <SheetContent
+            side="left"
+            className="w-full max-w-full p-8 bg-white flex flex-col overflow-y-auto z-[var(--z-modal)]"
             closeClassName="text-red-600 top-8 right-8 [&>svg]:size-8"
           >
             {/* Main Navigation - Bold, Large, Uppercase */}
-            <nav className="flex-1 overflow-y-auto px-10 pb-10 pt-15 flex flex-col justify-start gap-10 text-3xl font-bold uppercase tracking-wider">
+            <nav className="px-10 pb-10 pt-15 flex flex-col justify-start gap-10 text-3xl font-bold uppercase tracking-wider">
               {/* Flat top-level links */}
               {mainNavItems
                 .filter((item) => item.href && !item.items)
