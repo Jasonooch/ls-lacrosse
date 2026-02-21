@@ -34,6 +34,7 @@ const MainNews = ({ posts }: MainNewsProps) => {
           heroImage={post.heroImage}
           publishedAt={post.publishedAt}
           isMain={index === 0}
+          priority={index < 3}
         />
       ))}
     </div>

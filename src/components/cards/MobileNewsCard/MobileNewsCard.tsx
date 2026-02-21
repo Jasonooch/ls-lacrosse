@@ -1,6 +1,7 @@
 import styles from './MobileNewsCard.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
+import { NEWS_BLUR_DATA_URL } from '@/lib/image';
 import { Card } from '@/components/ui/card';
 import { formatInEasternTime } from '@/lib/date-time';
 
@@ -44,7 +45,9 @@ export default function MobileNewsCard({
                 fill
                 src={imageUrl}
                 alt={imageAlt}
-                sizes="(max-width: 768px) 75px, 75px"
+                sizes="75px"
+                placeholder="blur"
+                blurDataURL={NEWS_BLUR_DATA_URL}
                 style={{
                   objectPosition: heroImage?.focalX != null && heroImage?.focalY != null
                     ? `${heroImage.focalX}% ${heroImage.focalY}%`

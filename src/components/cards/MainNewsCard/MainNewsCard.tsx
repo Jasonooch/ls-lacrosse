@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import styles from './MainNewsCard.module.css'
 import { formatInEasternTime } from '@/lib/date-time'
+import { NEWS_BLUR_DATA_URL } from '@/lib/image'
 
 interface MainNewsCardProps {
   title: string
@@ -16,6 +17,7 @@ interface MainNewsCardProps {
   }
   publishedAt?: string
   isMain?: boolean
+  priority?: boolean
 }
 
 export default function MainNewsCard({
@@ -24,6 +26,7 @@ export default function MainNewsCard({
   heroImage,
   publishedAt,
   isMain = false,
+  priority,
 }: MainNewsCardProps) {
   const formattedDate = publishedAt
     ? formatInEasternTime(publishedAt, {
@@ -46,7 +49,9 @@ export default function MainNewsCard({
           alt={imageAlt}
           fill
           className={styles.image}
-          priority={isMain}
+          priority={priority ?? isMain}
+          placeholder="blur"
+          blurDataURL={NEWS_BLUR_DATA_URL}
           sizes={
             isMain
               ? '(max-width: 768px) 100vw, (max-width: 1280px) 70vw, 860px'

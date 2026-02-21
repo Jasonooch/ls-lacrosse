@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import { getPosts } from '@/lib/api/posts';
 import { getNextGame } from '@/lib/api/games/games'; // ← Only need this one
 import { formatInEasternTime } from '@/lib/date-time';
+import { NEWS_BLUR_DATA_URL } from '@/lib/image';
 
 export async function generateMetadata({
   params,
@@ -77,6 +78,8 @@ export default async function SinglePostPage({
                     alt={heroImageAlt}
                     fill
                     sizes="(max-width: 768px) 100vw, 66vw"
+                    placeholder="blur"
+                    blurDataURL={NEWS_BLUR_DATA_URL}
                     style={{
                       objectFit: 'cover',
                       objectPosition: post.heroImage?.focalX != null && post.heroImage?.focalY != null

@@ -71,7 +71,7 @@ const MobileNavHeader = () => {
             closeClassName="text-red-600 top-8 right-8 [&>svg]:size-8"
           >
             {/* Main Navigation - Bold, Large, Uppercase */}
-            <nav className="flex-1 px-10 pb-10 pt-15 flex flex-col justify-start gap-10 text-3xl font-bold uppercase tracking-wider">
+            <nav className="flex-1 overflow-y-auto px-10 pb-10 pt-15 flex flex-col justify-start gap-10 text-3xl font-bold uppercase tracking-wider">
               {/* Flat top-level links */}
               {mainNavItems
                 .filter((item) => item.href && !item.items)
