@@ -1,5 +1,5 @@
 // app/news/[slug]/page.tsx
-export const revalidate = 300;
+export const revalidate = 3600;
 
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
@@ -15,6 +15,11 @@ import { getPosts } from '@/lib/api/posts';
 import { getNextGame } from '@/lib/api/games/games'; // ← Only need this one
 import { formatInEasternTime } from '@/lib/date-time';
 import { NEWS_BLUR_DATA_URL } from '@/lib/image';
+
+export async function generateStaticParams() {
+  const data = await getPosts({ limit: 200, select: { slug: true } });
+  return data.docs.map((post) => ({ slug: post.slug }));
+}
 
 export async function generateMetadata({
   params,
