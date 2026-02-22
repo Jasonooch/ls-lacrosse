@@ -14,10 +14,16 @@ interface MainNewsCardProps {
     alt?: string
     focalX?: number | null
     focalY?: number | null
+    sizes?: {
+      blur?: { url?: string | null }
+      thumbnail?: { url?: string | null }
+      card?: { url?: string | null }
+    }
   }
   publishedAt?: string
   isMain?: boolean
   priority?: boolean
+  blurDataURL?: string
 }
 
 export default function MainNewsCard({
@@ -27,6 +33,7 @@ export default function MainNewsCard({
   publishedAt,
   isMain = false,
   priority,
+  blurDataURL,
 }: MainNewsCardProps) {
   const formattedDate = publishedAt
     ? formatInEasternTime(publishedAt, {
@@ -36,7 +43,12 @@ export default function MainNewsCard({
       })
     : null
 
-  const imageUrl = heroImage?.url || null
+  // Main card gets the full-width card size; secondary cards get the thumbnail size
+  // When a Payload-generated size is available (already WebP), skip Vercel's optimizer
+  const payloadSizedUrl = isMain
+    ? heroImage?.sizes?.card?.url
+    : heroImage?.sizes?.thumbnail?.url
+  const imageUrl = payloadSizedUrl ?? heroImage?.url ?? null
 
   const imageAlt = heroImage?.alt || title
 
@@ -51,11 +63,12 @@ export default function MainNewsCard({
           className={styles.image}
           priority={priority ?? isMain}
           placeholder="blur"
-          blurDataURL={NEWS_BLUR_DATA_URL}
+          blurDataURL={blurDataURL ?? NEWS_BLUR_DATA_URL}
+          unoptimized={!!payloadSizedUrl}
           sizes={
             isMain
-              ? '(max-width: 768px) 100vw, (max-width: 1280px) 70vw, 860px'
-              : '(max-width: 768px) 100vw, (max-width: 1280px) 30vw, 420px'
+              ? '(max-width: 768px) 100vw, (max-width: 1280px) 70vw, 875px'
+              : '(max-width: 768px) 100vw, (max-width: 1280px) 30vw, 430px'
           }
           style={{
             objectPosition:

@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button';
 import { getPosts } from '@/lib/api/posts';
 import { getNextGame } from '@/lib/api/games/games'; // ← Only need this one
 import { formatInEasternTime } from '@/lib/date-time';
-import { NEWS_BLUR_DATA_URL } from '@/lib/image';
+import { NEWS_BLUR_DATA_URL, getBlurDataURL } from '@/lib/image';
 
 export async function generateMetadata({
   params,
@@ -59,9 +59,17 @@ export default async function SinglePostPage({
       })
     : 'No date';
 
-  const heroImageUrl = post.heroImage?.url || null;
+  // Prefer the pre-generated card-size WebP; fall back to original
+  // When Payload-generated size is available (already WebP), skip Vercel's optimizer
+  const heroPayloadUrl = post.heroImage?.sizes?.card?.url
+  const heroImageUrl = heroPayloadUrl ?? post.heroImage?.url ?? null;
 
   const heroImageAlt = post.heroImage?.alt || post.title;
+
+  // Fetch the 8px blur variant and base64-encode it at ISR build time
+  const heroBlurDataURL = post.heroImage?.sizes?.blur?.url
+    ? await getBlurDataURL(post.heroImage.sizes.blur.url)
+    : NEWS_BLUR_DATA_URL;
 
   return (
     <section className={styles.main}>
@@ -79,7 +87,8 @@ export default async function SinglePostPage({
                     fill
                     sizes="(max-width: 768px) 100vw, 66vw"
                     placeholder="blur"
-                    blurDataURL={NEWS_BLUR_DATA_URL}
+                    blurDataURL={heroBlurDataURL}
+                    unoptimized={!!heroPayloadUrl}
                     style={{
                       objectFit: 'cover',
                       objectPosition: post.heroImage?.focalX != null && post.heroImage?.focalY != null

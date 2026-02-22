@@ -10,6 +10,7 @@ import WematinLogo from "@/public/images/WematinLogo.png";
 import NewsLink from "@/components/cards/NewsLink/NewsLink";
 import { getPosts } from '@/lib/api/posts';
 import { getNextGame } from '@/lib/api/games/games';
+import { getBlurDataURL } from '@/lib/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import styles from './page.module.css';
@@ -29,12 +30,22 @@ export default async function Home() {
   const latestPosts = postsData.docs.slice(0, 4);   // For grid
   const morePosts = postsData.docs.slice(4, 12);    // For list
 
+  // Compute per-image blur data URLs at ISR build time (baked into static HTML)
+  const latestPostsWithBlur = await Promise.all(
+    latestPosts.map(async (post) => ({
+      ...post,
+      blurDataURL: post.heroImage?.sizes?.blur?.url
+        ? await getBlurDataURL(post.heroImage.sizes.blur.url)
+        : undefined,
+    }))
+  );
+
   return (
     <>
         {/* News Grid */}
         <section>
           <div className="container pt-[var(--space-m)]">
-            <MainNews posts={latestPosts} />
+            <MainNews posts={latestPostsWithBlur} />
           </div>
         </section>
 

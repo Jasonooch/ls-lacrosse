@@ -14,6 +14,12 @@ export type Post = {
     alt?: string;
     focalX?: number | null;
     focalY?: number | null;
+    sizes?: {
+      blur?: { url?: string | null };
+      micro?: { url?: string | null };
+      thumbnail?: { url?: string | null };
+      card?: { url?: string | null };
+    };
   };
   publishedAt?: string;
   season?: Year;

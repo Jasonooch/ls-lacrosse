@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from '@/components/cards/RelatedNewsCard/RelatedNewsCard.module.css';
 import { formatInEasternTime } from '@/lib/date-time';
+import { NEWS_BLUR_DATA_URL } from '@/lib/image';
 
 interface RelatedNewsCardProps {
   post: {
@@ -11,6 +12,9 @@ interface RelatedNewsCardProps {
     heroImage?: {
       url?: string | null;
       alt?: string;
+      sizes?: {
+        micro?: { url?: string | null };
+      };
     };
   };
 }
@@ -24,7 +28,8 @@ const RelatedNewsCard = ({ post }: RelatedNewsCardProps) => {
       })
     : '';
 
-  const imageUrl = post.heroImage?.url || '/images/logo.png';
+  const microUrl = post.heroImage?.sizes?.micro?.url
+  const imageUrl = microUrl ?? post.heroImage?.url ?? '/images/logo.png';
 
   const imageAlt = post.heroImage?.alt || post.title;
 
@@ -36,6 +41,9 @@ const RelatedNewsCard = ({ post }: RelatedNewsCardProps) => {
         alt={imageAlt}
         width={60}
         height={60}
+        placeholder="blur"
+        blurDataURL={NEWS_BLUR_DATA_URL}
+        unoptimized={!!microUrl}
       />
       <div className={styles.content}>
         <h3 className={styles.heading}>{post.title}</h3>

@@ -11,8 +11,15 @@ interface Post {
     alt?: string;
     focalX?: number | null;
     focalY?: number | null;
+    sizes?: {
+      blur?: { url?: string | null };
+      micro?: { url?: string | null };
+      thumbnail?: { url?: string | null };
+      card?: { url?: string | null };
+    };
   };
   publishedAt?: string;
+  blurDataURL?: string;
 }
 
 interface MainNewsProps {
@@ -35,6 +42,7 @@ const MainNews = ({ posts }: MainNewsProps) => {
           publishedAt={post.publishedAt}
           isMain={index === 0}
           priority={index < 3}
+          blurDataURL={post.blurDataURL}
         />
       ))}
     </div>
