@@ -4,6 +4,7 @@ import { s3Storage } from '@payloadcms/storage-s3'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import path from 'path'
 import { buildConfig } from 'payload'
+import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
 import { Users } from './collections/Users'
@@ -67,6 +68,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL,
     },
   }),
+  sharp,
   plugins: [
     seoPlugin({
       collections: [],
