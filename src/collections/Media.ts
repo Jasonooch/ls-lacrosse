@@ -23,7 +23,9 @@ export const Media: CollectionConfig = {
       },
       {
         name: 'micro',
-        width: 120,
+        width: 180,
+        height: 180,
+        position: 'centre',
         formatOptions: { format: 'webp', options: { quality: 70 } },
       },
       {
