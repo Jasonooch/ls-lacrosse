@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { revalidateTag } from 'next/cache'
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -12,6 +13,13 @@ export const Media: CollectionConfig = {
       required: true,
     },
   ],
+  hooks: {
+    afterChange: [
+      () => {
+        try { revalidateTag('posts') } catch {}
+      },
+    ],
+  },
   upload: {
     focalPoint: true,
     crop: false,
