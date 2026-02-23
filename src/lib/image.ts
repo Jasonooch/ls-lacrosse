@@ -8,7 +8,11 @@ export const NEWS_BLUR_DATA_URL = `data:image/svg+xml;base64,${btoa(svg)}`
  */
 export async function getBlurDataURL(url: string): Promise<string> {
   try {
-    const res = await fetch(url, { cache: 'force-cache' })
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 5000)
+    const res = await fetch(url, { cache: 'force-cache', signal: controller.signal }).finally(() =>
+      clearTimeout(timeout),
+    )
     if (!res.ok) return NEWS_BLUR_DATA_URL
     const buffer = await res.arrayBuffer()
     const b64 = Buffer.from(buffer).toString('base64')
