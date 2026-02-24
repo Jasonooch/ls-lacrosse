@@ -13,6 +13,9 @@ interface MobileNewsCardProps {
     alt?: string;
     focalX?: number | null;
     focalY?: number | null;
+    sizes?: {
+      micro?: { url?: string | null };
+    };
   };
   publishedAt: string;
 }
@@ -30,7 +33,8 @@ export default function MobileNewsCard({
     ? formatInEasternTime(publishedAt, { year: 'numeric' })
     : '';
 
-  const imageUrl = heroImage?.url || null;
+  const microUrl = heroImage?.sizes?.micro?.url;
+  const imageUrl = microUrl ?? heroImage?.url ?? null;
 
   const imageAlt = heroImage?.alt || title;
 
@@ -46,6 +50,7 @@ export default function MobileNewsCard({
                 src={imageUrl}
                 alt={imageAlt}
                 sizes="75px"
+                unoptimized={!!microUrl}
                 placeholder="blur"
                 blurDataURL={NEWS_BLUR_DATA_URL}
                 style={{

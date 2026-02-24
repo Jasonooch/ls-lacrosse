@@ -70,10 +70,11 @@ const ScheduleGameCard = ({
       )}
       <div className={styles.logoSection}>
         <div className={styles.logoWrapper}>
-          <Image 
-          src={opponentLogo || '/images/logo.png'} 
+          <Image
+          src={opponentLogo || '/images/logo.png'}
           alt={opponentName}
           fill
+          sizes="112px"
           className={styles.logo}
           />
           <div className={location === 'LSRHS' ? styles.locationBadgeHome : styles.locationBadgeAway}>

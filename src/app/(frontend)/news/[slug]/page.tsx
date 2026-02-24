@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button';
 import { getPosts } from '@/lib/api/posts';
 import { getNextGame } from '@/lib/api/games/games'; // ← Only need this one
 import { formatInEasternTime } from '@/lib/date-time';
-import { NEWS_BLUR_DATA_URL, getBlurDataURL } from '@/lib/image';
+import { NEWS_BLUR_DATA_URL } from '@/lib/image';
 
 export async function generateMetadata({
   params,
@@ -66,11 +66,6 @@ export default async function SinglePostPage({
 
   const heroImageAlt = post.heroImage?.alt || post.title;
 
-  // Fetch the 8px blur variant and base64-encode it at ISR build time
-  const heroBlurDataURL = post.heroImage?.sizes?.blur?.url
-    ? await getBlurDataURL(post.heroImage.sizes.blur.url)
-    : NEWS_BLUR_DATA_URL;
-
   return (
     <section className={styles.main}>
       <div className="container">
@@ -87,7 +82,7 @@ export default async function SinglePostPage({
                     fill
                     sizes="(max-width: 768px) 100vw, 66vw"
                     placeholder="blur"
-                    blurDataURL={heroBlurDataURL}
+                    blurDataURL={NEWS_BLUR_DATA_URL}
                     unoptimized={!!heroPayloadUrl}
                     style={{
                       objectFit: 'cover',

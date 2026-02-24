@@ -25,11 +25,6 @@ export const Media: CollectionConfig = {
     crop: false,
     imageSizes: [
       {
-        name: 'blur',
-        width: 8,
-        formatOptions: { format: 'webp', options: { quality: 20 } },
-      },
-      {
         name: 'micro',
         width: 180,
         height: 180,

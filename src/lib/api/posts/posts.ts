@@ -15,7 +15,6 @@ export type Post = {
     focalX?: number | null;
     focalY?: number | null;
     sizes?: {
-      blur?: { url?: string | null };
       micro?: { url?: string | null };
       thumbnail?: { url?: string | null };
       card?: { url?: string | null };

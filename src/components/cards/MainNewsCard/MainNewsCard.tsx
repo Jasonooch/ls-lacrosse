@@ -15,7 +15,6 @@ interface MainNewsCardProps {
     focalX?: number | null
     focalY?: number | null
     sizes?: {
-      blur?: { url?: string | null }
       thumbnail?: { url?: string | null }
       card?: { url?: string | null }
     }
@@ -23,7 +22,6 @@ interface MainNewsCardProps {
   publishedAt?: string
   isMain?: boolean
   priority?: boolean
-  blurDataURL?: string
 }
 
 export default function MainNewsCard({
@@ -33,7 +31,6 @@ export default function MainNewsCard({
   publishedAt,
   isMain = false,
   priority,
-  blurDataURL,
 }: MainNewsCardProps) {
   const formattedDate = publishedAt
     ? formatInEasternTime(publishedAt, {
@@ -63,7 +60,7 @@ export default function MainNewsCard({
           className={styles.image}
           priority={priority ?? isMain}
           placeholder="blur"
-          blurDataURL={blurDataURL ?? NEWS_BLUR_DATA_URL}
+          blurDataURL={NEWS_BLUR_DATA_URL}
           unoptimized={!!payloadSizedUrl}
           sizes={
             isMain
