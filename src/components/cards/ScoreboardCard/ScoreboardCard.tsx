@@ -57,6 +57,7 @@ export default function ScoreboardCard({
               width={40}
               height={32}
               className={styles.logo}
+              unoptimized
             />
           </div>
           {/* Left Side - Team Name */}

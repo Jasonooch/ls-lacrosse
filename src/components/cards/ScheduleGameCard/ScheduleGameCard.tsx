@@ -76,6 +76,7 @@ const ScheduleGameCard = ({
           fill
           sizes="112px"
           className={styles.logo}
+          unoptimized
           />
           <div className={location === 'LSRHS' ? styles.locationBadgeHome : styles.locationBadgeAway}>
             {location === 'LSRHS' ? 'vs' : 'at'}

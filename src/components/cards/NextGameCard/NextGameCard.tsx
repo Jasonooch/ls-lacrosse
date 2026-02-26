@@ -72,6 +72,7 @@ export default function NextGameCard({ game }: NextGameCardProps) {
               width={200}
               height={60}
               className={styles.logo}
+              unoptimized
             />
           ) : (
             <div className="h-15 w-32 bg-gray-200 rounded flex items-center justify-center">
