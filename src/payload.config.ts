@@ -11,6 +11,7 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Level } from './collections/Level'
 import { Years } from './collections/Years'
+import { HallOfFame } from './collections/HallOfFame'
 import { Posts } from './collections/Posts'
 import { Categories } from './collections/Categories'
 import { Players } from './collections/Players'
@@ -57,6 +58,7 @@ export default buildConfig({
     Media,
     Level,
     Years,
+    HallOfFame,
   ],
   editor: lexicalEditor(),
   secret: payloadSecret,

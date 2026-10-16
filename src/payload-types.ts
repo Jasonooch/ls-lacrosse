@@ -80,6 +80,7 @@ export interface Config {
     media: Media;
     levels: Level;
     years: Year;
+    'hall-of-fame': HallOfFame;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -100,6 +101,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     levels: LevelsSelect<false> | LevelsSelect<true>;
     years: YearsSelect<false> | YearsSelect<true>;
+    'hall-of-fame': HallOfFameSelect<false> | HallOfFameSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -479,6 +481,47 @@ export interface FormSubmission {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "hall-of-fame".
+ */
+export interface HallOfFame {
+  id: number;
+  name: string;
+  /**
+   * Auto-generated from name
+   */
+  slug: string;
+  inductionYear: number;
+  /**
+   * e.g. 2008–2012
+   */
+  yearsAtLS?: string | null;
+  photo?: (number | null) | Media;
+  bio?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  honors?:
+    | {
+        honor: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -552,6 +595,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'years';
         value: number | Year;
+      } | null)
+    | ({
+        relationTo: 'hall-of-fame';
+        value: number | HallOfFame;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -826,6 +873,26 @@ export interface LevelsSelect<T extends boolean = true> {
  */
 export interface YearsSelect<T extends boolean = true> {
   year?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "hall-of-fame_select".
+ */
+export interface HallOfFameSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  inductionYear?: T;
+  yearsAtLS?: T;
+  photo?: T;
+  bio?: T;
+  honors?:
+    | T
+    | {
+        honor?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
