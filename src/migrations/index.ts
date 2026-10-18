@@ -4,6 +4,7 @@ import * as migration_20260218_090000 from './20260218_090000';
 import * as migration_20260723_131859_drills_library from './20260723_131859_drills_library';
 import * as migration_20261016_033928_hall_of_fame from './20261016_033928_hall_of_fame';
 import * as migration_20261016_112243_remove_drills from './20261016_112243_remove_drills';
+import * as migration_20261018_033052_all_americans from './20261018_033052_all_americans';
 
 export const migrations = [
   {
@@ -34,6 +35,11 @@ export const migrations = [
   {
     up: migration_20261016_112243_remove_drills.up,
     down: migration_20261016_112243_remove_drills.down,
-    name: '20261016_112243_remove_drills'
+    name: '20261016_112243_remove_drills',
+  },
+  {
+    up: migration_20261018_033052_all_americans.up,
+    down: migration_20261018_033052_all_americans.down,
+    name: '20261018_033052_all_americans'
   },
 ];

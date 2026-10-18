@@ -77,14 +77,15 @@ export const Players: CollectionConfig = {
           value: 'Face Off',
         },
       ],
-      required: true,
+      admin: {
+        description: 'Optional for alumni whose position is unknown',
+      },
     },
     {
       name: 'jerseyNumber',
       type: 'number',
-      required: true,
       admin: {
-        description: "Player's jersey number",
+        description: "Player's jersey number (optional for alumni whose number is unknown)",
       },
       min: 0,
       max: 999,
@@ -96,6 +97,31 @@ export const Players: CollectionConfig = {
       required: true,
       admin: {
         description: 'Year of graduation',
+      },
+    },
+    {
+      name: 'allAmerican',
+      label: 'All-American',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
+      name: 'allAmericanYears',
+      label: 'All-American years',
+      type: 'relationship',
+      relationTo: 'years',
+      hasMany: true,
+      admin: {
+        position: 'sidebar',
+        description: 'Each season this player was named an All-American',
+        condition: (data) => Boolean(data?.allAmerican),
+      },
+      hooks: {
+        // unchecking All-American clears the years, so no hidden values are left behind
+        beforeChange: [({ value, siblingData }) => (siblingData?.allAmerican ? value : [])],
       },
     },
   ],

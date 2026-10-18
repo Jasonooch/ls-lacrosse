@@ -367,15 +367,23 @@ export interface Player {
    * Auto-generated from first and last name
    */
   fullName?: string | null;
-  position: 'Attack' | 'Midfield' | 'Defense' | 'Goalie' | 'Face Off';
   /**
-   * Player's jersey number
+   * Optional for alumni whose position is unknown
    */
-  jerseyNumber: number;
+  position?: ('Attack' | 'Midfield' | 'Defense' | 'Goalie' | 'Face Off') | null;
+  /**
+   * Player's jersey number (optional for alumni whose number is unknown)
+   */
+  jerseyNumber?: number | null;
   /**
    * Year of graduation
    */
   graduationYear: number | Year;
+  allAmerican?: boolean | null;
+  /**
+   * Each season this player was named an All-American
+   */
+  allAmericanYears?: (number | Year)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -709,6 +717,8 @@ export interface PlayersSelect<T extends boolean = true> {
   position?: T;
   jerseyNumber?: T;
   graduationYear?: T;
+  allAmerican?: T;
+  allAmericanYears?: T;
   updatedAt?: T;
   createdAt?: T;
 }
