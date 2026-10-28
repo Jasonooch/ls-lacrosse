@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { exportSubmissionsHandler } from './endpoints/exportSubmissions'
+import { answerLabel, answerText, exportSubmissionsHandler } from './endpoints/exportSubmissions'
 
 export const FormSubmissions: CollectionConfig = {
   slug: 'form-submissions',
@@ -59,9 +59,11 @@ export const FormSubmissions: CollectionConfig = {
       hooks: {
         beforeChange: [
           ({ siblingData }) => {
-            // Auto-generate formatted data from payload
-            if (siblingData.payload) {
-              return JSON.stringify(siblingData.payload, null, 2)
+            // Auto-generate one "Label: value" line per answer from the payload
+            if (siblingData.payload && typeof siblingData.payload === 'object') {
+              return Object.entries(siblingData.payload as Record<string, unknown>)
+                .map(([key, value]) => `${answerLabel(key)}: ${answerText(value)}`)
+                .join('\n')
             }
             return undefined
           },
