@@ -105,6 +105,27 @@ export const FormSubmissions: CollectionConfig = {
         return data
       },
     ],
+    afterChange: [
+      async ({ doc, operation, req }) => {
+        // Copy Ando Day RSVPs to the Google Sheet (scripts/google-sheets/ando-day-rsvp.gs).
+        // The submission is already saved, so a sheet failure is logged, never shown to the person.
+        const sheetUrl = process.env.ANDO_DAY_RSVP_SHEET_URL
+        if (operation !== 'create' || doc.formName !== 'ando-day-rsvp' || !sheetUrl) return doc
+        try {
+          const res = await fetch(sheetUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(doc.payload),
+            signal: AbortSignal.timeout(10000),
+          })
+          const reply = await res.text()
+          if (!res.ok || reply.trim() !== 'ok') throw new Error(`Sheet replied ${res.status}: ${reply.slice(0, 200)}`)
+        } catch (error) {
+          req.payload.logger.error({ err: error, msg: 'Could not copy the RSVP to the Google Sheet' })
+        }
+        return doc
+      },
+    ],
   },
   timestamps: true,
 }
